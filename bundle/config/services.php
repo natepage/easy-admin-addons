@@ -19,5 +19,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services
         ->set(CrudAddonsResolverListener::class)
-        ->tag('kernel.event_listener');
+        ->tag('kernel.event_listener', [
+            'priority' => 2, // Must be higher than EasyCorp\Bundle\EasyAdminBundle\EventListener\AdminRouterSubscriber
+        ]);
 };
