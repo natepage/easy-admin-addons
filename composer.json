@@ -5,7 +5,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.4",
-        "easycorp/easyadmin-bundle": "^5.0"
+        "easycorp/easyadmin-bundle": "^5.0",
+        "natepage/utils": "dev-main"
     },
     "require-dev": {
         "natepage/dynamo-db-repository": "dev-main"
