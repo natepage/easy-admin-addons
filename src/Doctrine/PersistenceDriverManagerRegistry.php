@@ -6,15 +6,12 @@ namespace NatePage\EasyAdminAddons\Doctrine;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectRepository;
-use NatePage\DynamoDbRepository\Doctrine\Registry\ManagerRegistry as DynamoDbManagerRegistry;
-use NatePage\EasyAdminAddons\Provider\CrudAddonsProviderInterface;
+use NatePage\EasyAdminAddons\Persistence\PersistenceDriverRegistryInterface;
 
-final readonly class DynamoDbManagerRegistryDecorator implements ManagerRegistry
+final readonly class PersistenceDriverManagerRegistry implements ManagerRegistry
 {
     public function __construct(
-        private CrudAddonsProviderInterface $crudAddonsProvider,
-        private DynamoDbManagerRegistry $dynamoDbManagerRegistry,
-        private ManagerRegistry $decorated,
+        private PersistenceDriverRegistryInterface $driverRegistry,
     ) {
     }
 
@@ -75,8 +72,6 @@ final readonly class DynamoDbManagerRegistryDecorator implements ManagerRegistry
 
     private function getRegistry(): ManagerRegistry
     {
-        $crudAddons = $this->crudAddonsProvider->getCrudAddons();
-
-        return $crudAddons->useDynamoDb ? $this->dynamoDbManagerRegistry : $this->decorated;
+        return $this->driverRegistry->getManagerRegistry();
     }
 }

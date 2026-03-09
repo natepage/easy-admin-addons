@@ -8,8 +8,8 @@ use NatePage\EasyAdminAddons\Config\CrudAddons;
 
 abstract class AbstractCrudController extends BaseAbstractCrudController
 {
-    public function configureCrudAddons(): CrudAddons
+    public function configureCrudAddons(CrudAddons $crudAddons): CrudAddons
     {
-        return new CrudAddons();
+        return $crudAddons;
     }
 }

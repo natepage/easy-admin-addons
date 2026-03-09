@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace NatePage\EasyAdminAddons\Bundle;
 
 use NatePage\DynamoDbRepository\Doctrine\Registry\ManagerRegistry as DynamoDbManagerRegistry;
+use NatePage\EasyAdminAddons\Bundle\CompilerPass\PersistenceDriverRegistryPass;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -14,6 +15,11 @@ final class EasyAdminAddonsBundle extends AbstractBundle
     public function __construct()
     {
         $this->path = \realpath(__DIR__);
+    }
+
+    public function build(ContainerBuilder $container): void
+    {
+        $container->addCompilerPass(new PersistenceDriverRegistryPass());
     }
 
     public function configure(DefinitionConfigurator $definition): void

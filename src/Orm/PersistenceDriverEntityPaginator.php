@@ -6,14 +6,12 @@ namespace NatePage\EasyAdminAddons\Orm;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\PaginatorDto;
-use NatePage\EasyAdminAddons\Provider\CrudAddonsProviderInterface;
+use NatePage\EasyAdminAddons\Persistence\PersistenceDriverRegistryInterface;
 
-final readonly class DynamoDbEntityPaginatorDecorator implements EntityPaginatorInterface
+final readonly class PersistenceDriverEntityPaginator implements EntityPaginatorInterface
 {
     public function __construct(
-        private CrudAddonsProviderInterface $crudAddonsProvider,
-        private DynamoDbEntityPaginator $dynamoDbEntityPaginator,
-        private EntityPaginatorInterface $decorated,
+        private PersistenceDriverRegistryInterface $driverRegistry,
     ) {
     }
 
@@ -96,8 +94,6 @@ final readonly class DynamoDbEntityPaginatorDecorator implements EntityPaginator
 
     private function getEntityPaginator(): EntityPaginatorInterface
     {
-        $crudAddons = $this->crudAddonsProvider->getCrudAddons();
-
-        return $crudAddons->useDynamoDb ? $this->dynamoDbEntityPaginator : $this->decorated;
+        return $this->driverRegistry->getEntityPaginator();
     }
 }

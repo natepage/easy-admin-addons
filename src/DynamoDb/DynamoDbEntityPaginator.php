@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace NatePage\EasyAdminAddons\Orm;
+namespace NatePage\EasyAdminAddons\DynamoDb;
 
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface;
@@ -9,9 +9,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\PaginatorDto;
 
 final readonly class DynamoDbEntityPaginator implements EntityPaginatorInterface
 {
+
     public function paginate(PaginatorDto $paginatorDto, QueryBuilder $queryBuilder): EntityPaginatorInterface
     {
-        return $this;
+        // TODO: Implement paginate() method.
     }
 
     public function generateUrlForPage(int $page): string
@@ -76,7 +77,7 @@ final readonly class DynamoDbEntityPaginator implements EntityPaginatorInterface
 
     public function getResults(): ?iterable
     {
-        return [];
+        // TODO: Implement getResults() method.
     }
 
     public function getResultsAsJson(): string

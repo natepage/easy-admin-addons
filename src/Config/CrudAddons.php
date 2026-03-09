@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace NatePage\EasyAdminAddons\Config;
 
+use NatePage\EasyAdminAddons\Enum\PersistenceDriver;
+
 final class CrudAddons
 {
-    public bool $useDynamoDb = false;
+    public PersistenceDriver $persistenceDriver = PersistenceDriver::Default;
 }
