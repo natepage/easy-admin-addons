@@ -1,0 +1,19 @@
+{
+    "name": "natepage/easy-admin-addons",
+    "description": "Sets of additional functionalities for EasyCorp/EasyAdminBundle",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.4",
+        "easycorp/easyadmin-bundle": "^5.0"
+    },
+    "require-dev": {
+        "natepage/dynamo-db-repository": "dev-main"
+    },
+    "autoload": {
+        "psr-4": {
+            "NatePage\\EasyAdminAddons\\": "src",
+            "NatePage\\EasyAdminAddons\\Bundle\\": "bundle"
+        }
+    }
+}
