@@ -25,4 +25,6 @@ final class CrudAddons
             $this->persistenceDriver = $value;
         }
     }
+
+    public bool $renderTablesInCard = false;
 }

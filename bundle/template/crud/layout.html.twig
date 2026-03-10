@@ -1,0 +1,15 @@
+{% extends '@!EasyAdminBundle/crud/layout.html.twig' %}
+
+{% block main %}
+    {% set crudAddons = adminAddonsContext().crudAddonds %}
+
+    {% if crudAddons.renderTablesInCard %}
+        <div class="card">
+            <div class="card-body">
+                {{ parent() }}
+            </div>
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock main %}
