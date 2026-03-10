@@ -1,9 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace NatePage\EasyAdminAddons\Provider;
-
-use NatePage\EasyAdminAddons\Context\AdminAddonsContextInterface;
+namespace NatePage\EasyAdminAddons\Context;
 
 interface AdminAddonsContextProviderInterface
 {

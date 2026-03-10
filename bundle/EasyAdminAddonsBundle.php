@@ -5,6 +5,7 @@ namespace NatePage\EasyAdminAddons\Bundle;
 
 use NatePage\DynamoDbRepository\Doctrine\Registry\ManagerRegistry as DynamoDbManagerRegistry;
 use NatePage\EasyAdminAddons\Bundle\CompilerPass\PersistenceDriverRegistryPass;
+use NatePage\EasyAdminAddons\Bundle\Enum\ConfigParam;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -29,6 +30,11 @@ final class EasyAdminAddonsBundle extends AbstractBundle
 
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
+        $container
+            ->parameters()
+            ->set(ConfigParam::TimezoneSystemTimezone->value, $config['timezone']['system_timezone'])
+            ->set(ConfigParam::TimezoneUserTimezone->value, $config['timezone']['user_timezone']);
+
         $container->import('config/services.php');
 
         if ($config['dynamo_db']['enabled']) {

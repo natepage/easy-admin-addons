@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace NatePage\EasyAdminAddons\Twig\Extension;
 
-use NatePage\EasyAdminAddons\Provider\AdminAddonsContextProviderInterface;
+use NatePage\EasyAdminAddons\Context\AdminAddonsContextProviderInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

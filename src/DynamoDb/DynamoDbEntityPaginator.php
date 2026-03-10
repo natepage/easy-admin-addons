@@ -13,7 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGeneratorInterface;
 use JsonException;
 use NatePage\DynamoDbRepository\Common\Registry\ObjectRepositoryRegistryInterface;
 use NatePage\DynamoDbRepository\Common\Repository\ObjectRepositoryInterface;
-use NatePage\EasyAdminAddons\Provider\AdminAddonsContextProviderInterface;
+use NatePage\EasyAdminAddons\Context\AdminAddonsContextProviderInterface;
 use NatePage\Utils\Helper\StringHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;

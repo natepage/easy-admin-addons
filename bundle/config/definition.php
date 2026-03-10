@@ -9,5 +9,12 @@ return static function (DefinitionConfigurator $definition) {
             ->arrayNode('dynamo_db')
                 ->canBeEnabled()
             ->end()
+            ->arrayNode('timezone')
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->scalarNode('system_timezone')->defaultNull()->end()
+                    ->scalarNode('user_timezone')->defaultNull()->end()
+                ->end()
+            ->end()
         ->end();
 };

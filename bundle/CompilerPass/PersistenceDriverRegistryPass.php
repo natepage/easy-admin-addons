@@ -5,12 +5,12 @@ namespace NatePage\EasyAdminAddons\Bundle\CompilerPass;
 
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface;
 use NatePage\EasyAdminAddons\Bundle\Enum\ConfigTag;
+use NatePage\EasyAdminAddons\Context\AdminAddonsContextProviderInterface;
 use NatePage\EasyAdminAddons\Doctrine\PersistenceDriverManagerRegistry;
 use NatePage\EasyAdminAddons\Enum\PersistenceDriver;
 use NatePage\EasyAdminAddons\Orm\PersistenceDriverEntityPaginator;
 use NatePage\EasyAdminAddons\Persistence\PersistenceDriverRegistry;
 use NatePage\EasyAdminAddons\Persistence\PersistenceDriverRegistryInterface;
-use NatePage\EasyAdminAddons\Provider\AdminAddonsContextProviderInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;

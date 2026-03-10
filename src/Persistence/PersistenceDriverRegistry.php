@@ -5,7 +5,7 @@ namespace NatePage\EasyAdminAddons\Persistence;
 
 use Doctrine\Persistence\ManagerRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface;
-use NatePage\EasyAdminAddons\Provider\AdminAddonsContextProviderInterface;
+use NatePage\EasyAdminAddons\Context\AdminAddonsContextProviderInterface;
 use Psr\Container\ContainerInterface;
 
 final readonly class PersistenceDriverRegistry implements PersistenceDriverRegistryInterface
