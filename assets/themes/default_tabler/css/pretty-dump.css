@@ -1,0 +1,24 @@
+.pretty-dump-card {
+    padding: 0;
+}
+.pretty-dump-card .pretty-dump-card-body {
+    padding: 0;
+}
+.pretty-dump-card .pretty-dump-card-body .pretty-dump-btn-container {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+.pretty-dump-card .pretty-dump-card-body .pretty-dump-btn-container .pretty-dump-btn:hover {
+    background-color: var(--button-bg);
+}
+.pretty-dump-card .pretty-dump-card-body .pretty-dump-code-block-container {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+.pretty-dump-card .pretty-dump-card-body .pretty-dump-code-block-container .pretty-dump-code-block {
+    border-radius: var(--bs-card-border-radius);
+    overflow: hidden;
+    width: 100%;
+}

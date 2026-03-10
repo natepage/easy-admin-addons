@@ -1,0 +1,7 @@
+.alert {
+    border-width: var(--border-width);
+}
+
+.alert-dismissible .btn-close {
+    inset-block-start: 5px;
+}

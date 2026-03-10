@@ -6,5 +6,5 @@ Sets of additional functionalities for EasyCorp/EasyAdminBundle
 
 - [ ] Custom theme (CSS)
 - [ ] Timezone management (resolver, form type, etc.)
-- [ ] Base abstract controllers with sensible defaults
-- [ ] Support for AWS DynamoDB instead of Doctrine ORM (ideally per CRUD so that it can be used in the same project as the Doctrine ORM)
+- [X] Base abstract controllers with sensible defaults
+- [X] Support for AWS DynamoDB instead of Doctrine ORM (ideally per CRUD so that it can be used in the same project as the Doctrine ORM)

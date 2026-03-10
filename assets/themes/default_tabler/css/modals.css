@@ -1,0 +1,4 @@
+.modal-body {
+    border-bottom-left-radius: calc(var(--border-radius) * 2);
+    border-bottom-right-radius: calc(var(--border-radius) * 2);
+}

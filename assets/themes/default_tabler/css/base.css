@@ -1,0 +1,22 @@
+.card .card-body .content-panel-footer .list-pagination {
+    padding: 16px 0 0 0;
+}
+
+[data-bs-theme="dark"] {
+    .action-filters-button .icon {
+        color: var(--white);
+    }
+
+    .action-filters-button.action-filters-applied i {
+        color: var(--white);
+    }
+
+    .action-filters-button .action-filters-button-count {
+        color: var(--white);
+        font-weight: inherit;
+    }
+
+    .action-filters-reset i {
+        color: var(--white);
+    }
+}

@@ -1,0 +1,229 @@
+:root {
+    --color-override-danger: #d63939;
+    --color-override-info: #4299e1;
+    --color-override-primary: #f76707;
+    --color-override-success: #2fb344;
+    --color-override-warning: #f59f00;
+
+    --font-family-monospace: Monaco, Consolas, Liberation Mono, Courier New, monospace;
+    --font-family-sans-serif: Inter Var, Inter, -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+
+    --font-size-xs: 14px;
+    --font-size-sm: 16px;
+    --font-size-base: 14px;
+    --font-size-lg: 18px;
+    --font-size-xl: 20px;
+    --font-size-xxl: 26px;
+    --font-size-xxxl: 30px;
+
+    --sidebar-padding-left: 0;
+    --sidebar-padding-right: 0;
+    --sidebar-menu-active-item-color: var(--sidebar-menu-color);
+    --sidebar-menu-items-padding-left: 16px;
+
+    .pager .pagination {
+        --bs-pagination-font-size: var(--font-size-base);
+    }
+}
+
+/* DARK THEME */
+.ea-dark-scheme {
+    /* Variables from Tabler theme: Slate */
+    --true-gray-50: #f8fafc;
+    --true-gray-100: #f1f5f9;
+    --true-gray-200: #e2e8f0;
+    --true-gray-300: #cbd5e1;
+    --true-gray-400: #94a3b8;
+    --true-gray-500: #64748b;
+    --true-gray-600: #475569;
+    --true-gray-700: #334155;
+    --true-gray-800: #1e293b;
+    --true-gray-900: #0f172a;
+    --true-gray-950: #020617;
+
+    --body-bg: var(--true-gray-900);
+    --primary-bg: var(--color-override-primary);
+
+    --alert-danger-bg: color-mix(in srgb, var(--color-override-danger) 10%, transparent);
+    --alert-danger-border-color: color-mix(in srgb, var(--color-override-danger) 20%, transparent);
+    --alert-info-bg: color-mix(in srgb, var(--color-override-info) 10%, transparent);
+    --alert-info-border-color: color-mix(in srgb, var(--color-override-info) 20%, transparent);
+    --alert-success-bg: color-mix(in srgb, var(--color-override-success) 10%, transparent);
+    --alert-success-border-color: color-mix(in srgb, var(--color-override-success) 20%, transparent);
+    --alert-warning-bg: color-mix(in srgb, var(--color-override-warning) 10%, transparent);
+    --alert-warning-border-color: color-mix(in srgb, var(--color-override-warning) 20%, transparent);
+
+    --badge-boolean-false-bg: color-mix(in srgb, color-mix(in oklab, var(--true-gray-400) 10%, transparent) 100%, transparent);
+    --badge-boolean-false-box-shadow: none;
+    --badge-boolean-false-color: color-mix(in srgb, var(--true-gray-400) 100%, transparent);
+    --badge-boolean-true-bg: var(--color-override-primary);
+    --badge-boolean-true-box-shadow: none;
+    --badge-boolean-true-color: var(--white);
+
+    --badge-primary-bg: var(--true-gray-900);
+    --badge-primary-box-shadow: none;
+    --badge-primary-color: var(--true-gray-400);
+
+    --badge-secondary-bg: color-mix(in srgb, color-mix(in oklab, var(--true-gray-400) 10%, transparent) 100%, transparent);
+    --badge-secondary-box-shadow: none;
+    --badge-secondary-color: color-mix(in srgb, var(--true-gray-400) 100%, transparent);
+
+    --button-focus-outline-color: var(--color-override-primary);
+
+    --button-primary-box-shadow: none;
+    --button-primary-bg: var(--color-override-primary);
+    --button-primary-color: var(--white);
+    --button-primary-icon-color: var(--white);
+    --button-primary-border-color: transparent;
+    --button-primary-hover-bg: color-mix(in oklab, var(--color-override-primary), transparent 20%);;
+    --button-primary-hover-color: var(--white);
+    --button-primary-hover-border-color: transparent;
+    --button-primary-active-box-shadow: none;
+    --button-primary-active-bg: var(--color-override-primary);
+    --button-primary-active-color: var(--white);
+    --button-primary-active-border-color: transparent;
+
+    --button-secondary-box-shadow: none;
+    --button-secondary-bg: var(--true-gray-400);
+    --button-secondary-color: var(--white);
+    --button-secondary-icon-color: var(--white);
+    --button-secondary-border-color: transparent;
+    --button-secondary-hover-bg: color-mix(in oklab, var(--true-gray-400), transparent 20%);
+    --button-secondary-hover-color: var(--white);
+    --button-secondary-hover-border-color: transparent;
+    --button-secondary-active-box-shadow: none;
+    --button-secondary-active-bg: var(--true-gray-400);
+    --button-secondary-active-color: var(--white);
+    --button-secondary-active-border-color: transparent;
+
+    --button-success-box-shadow: none;
+    --button-success-bg: var(--color-override-success);
+    --button-success-color: var(--white);
+    --button-success-icon-color: var(--white);
+    --button-success-border-color: transparent;
+    --button-success-hover-bg: color-mix(in oklab, var(--color-override-success), transparent 20%);
+    --button-success-hover-color: var(--white);
+    --button-success-hover-border-color: transparent;
+    --button-success-active-box-shadow: none;
+    --button-success-active-bg: var(--color-override-success);
+    --button-success-active-color: var(--white);
+    --button-success-active-border-color: transparent;
+
+    --button-warning-box-shadow: none;
+    --button-warning-bg: var(--color-override-warning);
+    --button-warning-color: var(--white);
+    --button-warning-icon-color: var(--white);
+    --button-warning-border-color: transparent;
+    --button-warning-hover-bg: color-mix(in oklab, var(--color-override-warning), transparent 20%);
+    --button-warning-hover-color: var(--white);
+    --button-warning-hover-border-color: transparent;
+    --button-warning-active-box-shadow: none;
+    --button-warning-active-bg: var(--color-override-warning);
+    --button-warning-active-color: var(--white);
+    --button-warning-active-border-color: transparent;
+
+    --button-danger-box-shadow: none;
+    --button-danger-bg: var(--color-override-danger);
+    --button-danger-color: var(--white);
+    --button-danger-icon-color: var(--white);
+    --button-danger-border-color: transparent;
+    --button-danger-hover-bg: color-mix(in oklab, var(--color-override-danger), transparent 20%);
+    --button-danger-hover-color: var(--white);
+    --button-danger-hover-border-color: transparent;
+    --button-danger-active-box-shadow: none;
+    --button-danger-active-bg: var(--color-override-danger);
+    --button-danger-active-color: var(--white);
+    --button-danger-active-border-color: transparent;
+
+    --button-invisible-box-shadow: none;
+    --button-invisible-bg: transparent;
+    --button-invisible-color: inherit;
+    --button-invisible-icon-color: inherit;
+    --button-invisible-border-color: transparent;
+    --button-invisible-hover-bg: rgba(255, 255, 255, 0.4);
+    --button-invisible-hover-color: inherit;
+    --button-invisible-hover-border-color: transparent;
+    --button-invisible-active-bg: rgba(255, 255, 255, 0.4);
+    --button-invisible-active-color: inherit;
+    --button-invisible-active-box-shadow: none;
+    --button-invisible-active-border-color: transparent;
+
+    --button-invisible-danger-color: var(--color-override-danger);
+    --button-invisible-danger-hover-color: var(--white);
+    --button-invisible-danger-hover-icon-color: inherit;
+    --button-invisible-danger-hover-hover-bg: var(--color-override-danger);
+    --button-invisible-danger-active-color: var(--white);
+    --button-invisible-danger-hover-active-bg: var(--color-override-danger);
+
+    --dropdown-settings-active-item-color: var(--color-override-primary);
+
+    --form-switch-checked-bg: var(--color-override-primary);
+
+    --link-color: var(--color-override-primary);
+    --link-hover-color: color-mix(in oklab, var(--color-override-primary), white 30%);
+
+    --pagination-active-bg: var(--color-override-primary);
+
+    --sidebar-bg: var(--true-gray-800);
+    --sidebar-border-color: var(--true-gray-700);
+    --sidebar-menu-color: rgba(255, 255, 255, 0.7);
+    --sidebar-menu-active-item-color: rgba(255, 255, 255, 0.7);
+    --sidebar-menu-active-item-bg: rgba(203, 213, 225, 0.08); /* 8% opacity of true-gray-300 color */
+
+    --table-cell-border-color: var(--true-gray-700);
+    --table-thead-sorted-color: var(--color-override-primary);
+    --table-thead-sorted-marker-color: var(--color-override-primary);
+}
+
+/* Bootstrap variables */
+:root,
+[data-bs-theme="light"],
+[data-bs-theme="dark"] {
+    --bs-body-font-weight: 300;
+
+    .badge {
+        --bs-badge-border: 1px solid transparent;
+        --bs-badge-font-weight: 300;
+        --bs-badge-padding-x: .5em;
+        --bs-badge-padding-y: .25em;
+        --bs-badge-font-size: 0.85714285em;
+    }
+
+    .btn {
+        --button-font-weight: 300;
+        --button-height: 40px;
+        --button-padding-y: .5625rem;
+        --button-padding-x: 1rem;
+    }
+
+    .card {
+        --bs-card-border-radius: calc(var(--border-radius) * 2);
+        --bs-card-bg: var(--sidebar-bg);
+        --bs-card-spacer-x: 1.25rem;
+    }
+
+    .modal {
+        --bs-modal-border-radius: calc(var(--border-radius) * 2);
+    }
+
+    .table {
+        --bs-table-bg: var(--sidebar-bg);
+    }
+}
+
+[data-bs-theme="dark"] {
+    .btn-close {
+        --bs-btn-close-color: var(--white);
+        --bs-btn-close-bg: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23fff%27%3e%3cpath d=%27M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z%27/%3e%3c/svg%3e")
+    }
+
+    .dropdown-menu {
+        --bs-dropdown-link-active-bg: var(--color-override-primary);
+    }
+
+    .pagination {
+        --bs-pagination-active-color: var(--white);
+        --bs-pagination-active-bg: var(--color-override-primary);
+        --bs-pagination-active-border-color: var(--color-override-primary);
+    }
+}
