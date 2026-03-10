@@ -8,14 +8,19 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Option\EA;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\PaginatorDto;
+use EasyCorp\Bundle\EasyAdminBundle\Factory\EntityFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGeneratorInterface;
+use JsonException;
 use NatePage\DynamoDbRepository\Common\Registry\ObjectRepositoryRegistryInterface;
 use NatePage\DynamoDbRepository\Common\Repository\ObjectRepositoryInterface;
 use NatePage\EasyAdminAddons\Provider\AdminAddonsContextProviderInterface;
+use NatePage\Utils\Helper\StringHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
 use Symfony\Contracts\Service\ResetInterface;
+use Twig\Environment;
+use Twig\Error\Error;
 
 final class DynamoDbEntityPaginator implements EntityPaginatorInterface, ResetInterface
 {
@@ -33,8 +38,10 @@ final class DynamoDbEntityPaginator implements EntityPaginatorInterface, ResetIn
         private readonly AdminAddonsContextProviderInterface $addonsContextProvider,
         private readonly AdminUrlGeneratorInterface $adminUrlGenerator,
         private readonly ArgumentResolverInterface $argumentResolver,
+        private readonly EntityFactory $entityFactory,
         private readonly ObjectRepositoryRegistryInterface $objectRepositoryRegistry,
         private readonly RequestStack $requestStack,
+        private readonly Environment $twig,
     ) {
     }
 
@@ -156,9 +163,53 @@ final class DynamoDbEntityPaginator implements EntityPaginatorInterface, ResetIn
         return $this->results = \is_array($results) ? $results : \iterator_to_array($results);
     }
 
-    public function getResultsAsJson(): string
-    {
-        // TODO: Implement getResultsAsJson() method.
+    /**
+     * @throws JsonException
+     */
+    public function getResultsAsJson(
+        ?callable $callback = null,
+        ?string $twigTemplate = null,
+        bool $renderAsHtml = false
+    ): string {
+        $results = [];
+
+        foreach ($this->getResults() ?? [] as $entityInstance) {
+            $entityDto = $this->entityFactory->createForEntityInstance($entityInstance);
+            $entityAsString = null;
+
+            if (StringHelper::isNotEmpty($twigTemplate)) {
+                try {
+                    $entityAsString = $this->twig->render($twigTemplate, ['entity' => $entityInstance]);
+                } catch (Error $e) {
+                    throw new \RuntimeException(sprintf(
+                        'Error rendering autocomplete template "%s" for entity "%s": %s',
+                        $twigTemplate,
+                        $entityInstance::class,
+                        $e->getMessage()
+                    ), 0, $e);
+                }
+            }
+
+            if (StringHelper::isEmpty($entityAsString) && \is_callable($callback)) {
+                $entityAsString = (string) $callback($entityInstance);
+            }
+
+            if (StringHelper::isNotEmpty($entityAsString) && $renderAsHtml === false) {
+                $entityAsString = \htmlspecialchars($entityAsString, \ENT_QUOTES | \ENT_SUBSTITUTE, 'UTF-8');
+            }
+
+            $results[] = [
+                EA::ENTITY_ID => $entityDto->getPrimaryKeyValueAsString(),
+                'entityAsString' => $entityAsString ?? (string) $entityDto,
+            ];
+        }
+
+        $jsonResults = [
+            'results' => $results,
+            'next_page' => $this->hasNextPage() ? $this->generateUrlForPage($this->getNextPage()) : null,
+        ];
+
+        return \json_encode($jsonResults, \JSON_THROW_ON_ERROR);
     }
 
     public function reset(): void
