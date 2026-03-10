@@ -14,6 +14,7 @@ use NatePage\DynamoDbRepository\Common\Repository\ObjectRepositoryInterface;
 use NatePage\EasyAdminAddons\Provider\AdminAddonsContextProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
 use Symfony\Contracts\Service\ResetInterface;
 
 final class DynamoDbEntityPaginator implements EntityPaginatorInterface, ResetInterface
@@ -31,6 +32,7 @@ final class DynamoDbEntityPaginator implements EntityPaginatorInterface, ResetIn
     public function __construct(
         private readonly AdminAddonsContextProviderInterface $addonsContextProvider,
         private readonly AdminUrlGeneratorInterface $adminUrlGenerator,
+        private readonly ArgumentResolverInterface $argumentResolver,
         private readonly ObjectRepositoryRegistryInterface $objectRepositoryRegistry,
         private readonly RequestStack $requestStack,
     ) {
@@ -138,13 +140,14 @@ final class DynamoDbEntityPaginator implements EntityPaginatorInterface, ResetIn
         $this->objectRepository = $this->objectRepositoryRegistry->get($objectClass);
 
         $currentRequest = $this->getCurrentRequest();
-        $callbackParams = [
+        $newRequest = $currentRequest->duplicate(attributes: [
             'objectRepository' => $this->objectRepository,
             'queryBuilder' => $this->queryBuilder,
             'paginatorDto' => $this->paginatorDto,
             'lastEvaluatedKey' => $currentRequest->query->get(self::QUERY_LAST_EVALUATED_KEY),
-        ];
+        ]);
 
+        $callbackParams = $this->argumentResolver->getArguments($newRequest, $getResultsCallback);
         $results = $getResultsCallback(...$callbackParams);
         if (\is_array($results) === false && $results instanceof \Traversable === false) {
             throw new \RuntimeException(sprintf('The paginator "entityPaginatorGetResultsCallback" callback must return an array or an instance of Traversable, "%s" returned.', get_debug_type($results)));
