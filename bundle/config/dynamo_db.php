@@ -17,6 +17,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services
         ->set(DynamoDbEntityPaginator::class)
+        ->arg('$argumentResolver', service('argument_resolver'))
         ->tag(ConfigTag::PersistenceDriverEntityPaginator->value, [
             'driver' => PersistenceDriver::DynamoDb->value,
         ]);
