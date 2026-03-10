@@ -32,7 +32,6 @@ final readonly class PersistenceDriverRegistry implements PersistenceDriverRegis
         return $this->addonsContextProvider
             ->getAdminAddonsContext()
             ->getCrudAddons()
-            ->persistenceDriver
-            ->value;
+            ->persistenceDriver;
     }
 }
