@@ -7,6 +7,7 @@ use Doctrine\ORM\Query\Expr\From;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Option\EA;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Contracts\Provider\AdminContextProviderInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\PaginatorDto;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\EntityFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGeneratorInterface;
@@ -36,6 +37,7 @@ final class DynamoDbEntityPaginator implements EntityPaginatorInterface, ResetIn
 
     public function __construct(
         private readonly AdminAddonsContextProviderInterface $addonsContextProvider,
+        private readonly AdminContextProviderInterface $adminContextProvider,
         private readonly AdminUrlGeneratorInterface $adminUrlGenerator,
         private readonly ArgumentResolverInterface $argumentResolver,
         private readonly EntityFactory $entityFactory,
@@ -146,12 +148,14 @@ final class DynamoDbEntityPaginator implements EntityPaginatorInterface, ResetIn
 
         $this->objectRepository = $this->objectRepositoryRegistry->get($objectClass);
 
+        $adminContext = $this->adminContextProvider->getContext();
         $currentRequest = $this->getCurrentRequest();
         $newRequest = $currentRequest->duplicate(attributes: [
             'objectRepository' => $this->objectRepository,
             'queryBuilder' => $this->queryBuilder,
             'paginatorDto' => $this->paginatorDto,
             'lastEvaluatedKey' => $currentRequest->query->get(self::QUERY_LAST_EVALUATED_KEY),
+            'searchDto' => $adminContext?->getSearch(),
         ]);
 
         $callbackParams = $this->argumentResolver->getArguments($newRequest, $getResultsCallback);
