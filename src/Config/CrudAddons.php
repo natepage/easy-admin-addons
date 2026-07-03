@@ -26,5 +26,7 @@ final class CrudAddons
         }
     }
 
+    public bool $readOnly = false;
+
     public bool $renderTablesInCard = false;
 }

@@ -3,11 +3,69 @@ declare(strict_types=1);
 
 namespace NatePage\EasyAdminAddons\Controller;
 
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController as BaseAbstractCrudController;
 use NatePage\EasyAdminAddons\Config\CrudAddons;
+use NatePage\EasyAdminAddons\Context\AdminAddonsContextProviderInterface;
+use Symfony\Contracts\Service\Attribute\Required;
 
 abstract class AbstractCrudController extends BaseAbstractCrudController
 {
+    private const array DEFAULT_ACTIONS_MAPPING = [
+        Crud::PAGE_DETAIL => [
+            Action::EDIT,
+            Action::DELETE,
+            Action::INDEX,
+        ],
+        Crud::PAGE_EDIT => [
+            Action::SAVE_AND_RETURN,
+            Action::SAVE_AND_CONTINUE,
+        ],
+        Crud::PAGE_INDEX => [
+            Action::NEW,
+            Action::EDIT,
+            Action::DELETE,
+        ],
+        Crud::PAGE_NEW => [
+            Action::SAVE_AND_RETURN,
+            Action::SAVE_AND_ADD_ANOTHER,
+        ],
+    ];
+
+    private AdminAddonsContextProviderInterface $adminAddonsContextProvider;
+
+    #[Required]
+    public function setAdminAddonsContextProvider(AdminAddonsContextProviderInterface $provider): void
+    {
+        $this->adminAddonsContextProvider = $provider;
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        $actions = parent::configureActions($actions);
+
+        $crudAddons = $this->adminAddonsContextProvider->getAdminAddonsContext()->getCrudAddons();
+
+        if ($crudAddons->readOnly) {
+            $actionsDto = $actions->getAsDto(Crud::PAGE_INDEX);
+
+            foreach (self::DEFAULT_ACTIONS_MAPPING as $pageName => $actionsList) {
+                foreach ($actionsList as $actionName) {
+                    // Setting invalid permission so accessing the action URL directly does not work either
+                    $actions->setPermission($actionName, 'easy_admin_addons_invalid_permission');
+
+                    if (\is_string($pageName) && $actionsDto->getAction($pageName, $actionName) !== null) {
+                        $actions->remove($pageName, $actionName);
+                    }
+                }
+            }
+        }
+
+        return $actions;
+    }
+
     public function configureCrudAddons(CrudAddons $crudAddons): CrudAddons
     {
         return $crudAddons;
