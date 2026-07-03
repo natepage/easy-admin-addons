@@ -7,6 +7,7 @@ use NatePage\EasyAdminAddons\Bundle\Enum\ConfigParam;
 use NatePage\EasyAdminAddons\Context\AdminAddonsContextProvider;
 use NatePage\EasyAdminAddons\Context\AdminAddonsContextProviderInterface;
 use NatePage\EasyAdminAddons\Doctrine\PersistenceDriverManagerRegistry;
+use NatePage\EasyAdminAddons\Field\Configurator\TextTruncateMiddleConfigurator;
 use NatePage\EasyAdminAddons\Field\Configurator\TimezoneConfigurator as FieldTimezoneConfigurator;
 use NatePage\EasyAdminAddons\Filter\Configurator\TimezoneConfigurator as FilterTimezoneConfigurator;
 use NatePage\EasyAdminAddons\Listener\AdminAddonsContextResolverListener;
@@ -37,6 +38,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // Field Configurator
     $services->set(FieldTimezoneConfigurator::class);
+    $services->set(TextTruncateMiddleConfigurator::class);
 
     // Filter Configurator
     $services->set(FilterTimezoneConfigurator::class);
