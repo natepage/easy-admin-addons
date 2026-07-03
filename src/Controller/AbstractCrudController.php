@@ -47,10 +47,9 @@ abstract class AbstractCrudController extends BaseAbstractCrudController
         $actions = parent::configureActions($actions);
 
         $crudAddons = $this->adminAddonsContextProvider->getAdminAddonsContext()->getCrudAddons();
+        $actionsDto = $actions->getAsDto(Crud::PAGE_INDEX);
 
         if ($crudAddons->readOnly) {
-            $actionsDto = $actions->getAsDto(Crud::PAGE_INDEX);
-
             foreach (self::DEFAULT_ACTIONS_MAPPING as $pageName => $actionsList) {
                 foreach ($actionsList as $actionName) {
                     // Keep index otherwise nothing works :)
@@ -68,7 +67,7 @@ abstract class AbstractCrudController extends BaseAbstractCrudController
             }
         }
 
-        if ($crudAddons->detailActionEnabled) {
+        if ($crudAddons->detailActionEnabled && $actionsDto->getAction(Crud::PAGE_INDEX, Action::DETAIL) === null) {
             $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
         }
 
