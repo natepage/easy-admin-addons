@@ -53,6 +53,11 @@ abstract class AbstractCrudController extends BaseAbstractCrudController
 
             foreach (self::DEFAULT_ACTIONS_MAPPING as $pageName => $actionsList) {
                 foreach ($actionsList as $actionName) {
+                    // Keep index otherwise nothing works :)
+                    if ($actionName === Action::INDEX) {
+                        continue;
+                    }
+
                     // Setting invalid permission so accessing the action URL directly does not work either
                     $actions->setPermission($actionName, 'easy_admin_addons_invalid_permission');
 
@@ -61,6 +66,10 @@ abstract class AbstractCrudController extends BaseAbstractCrudController
                     }
                 }
             }
+        }
+
+        if ($crudAddons->detailActionEnabled) {
+            $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
         }
 
         return $actions;
