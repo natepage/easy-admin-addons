@@ -78,4 +78,13 @@ abstract class AbstractCrudController extends BaseAbstractCrudController
     {
         return $crudAddons;
     }
+
+    protected function resetActionPermissions(Actions $actions, string $actionName): void
+    {
+        $permissions = $actions->getAsDto(null)->getActionPermissions();
+
+        unset($permissions[$actionName]);
+
+        $actions->setPermissions($permissions);
+    }
 }
