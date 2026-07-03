@@ -58,15 +58,18 @@ final readonly class TextTruncateMiddleConfigurator implements FieldConfigurator
             return $value;
         }
 
-        $ellipsis = '...';
-        $halfLeft = (int) (\floor($maxLength / 2) - \strlen($ellipsis));
-        $halfRight = (int) \ceil($maxLength / 2);
+        $ellipsis = '[...]';
+        $halfLeft = \substr($value, 0, (int)(\floor($maxLength / 2) - \strlen($ellipsis)));
+        $halfRight = \substr($value, -((int)\ceil($maxLength / 2)));
 
-        return \sprintf(
-            '%s%s%s',
-            \substr($value, 0, $halfLeft),
-            $ellipsis,
-            \substr($value, -$halfRight)
-        );
+        if (\str_ends_with($halfLeft, '.')) {
+            $halfLeft = \rtrim($halfLeft, '.');
+        }
+
+        if (\str_starts_with($halfRight, '.')) {
+            $halfRight = \ltrim($halfRight, '.');
+        }
+
+        return \sprintf('%s%s%s', $halfLeft, $ellipsis, $halfRight);
     }
 }
