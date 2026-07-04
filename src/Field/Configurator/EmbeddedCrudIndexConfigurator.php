@@ -21,7 +21,9 @@ final readonly class EmbeddedCrudIndexConfigurator implements FieldConfiguratorI
 
     public function configure(FieldDto $field, EntityDto $entityDto, AdminContext $context): void
     {
-        if ($field->getTemplatePath() === null || $field->getTemplatePath() === '') {
+        // Replace templatePath only if field is using default one from EasyAdminBundle itself
+        $templatePath = $field->getTemplatePath();
+        if (\is_string($templatePath) && \str_starts_with($templatePath, '@EasyAdmin/')) {
             $field->setTemplatePath($this->templateResolver->resolvePath('crud/field/embedded_crud_index'));
         }
 
