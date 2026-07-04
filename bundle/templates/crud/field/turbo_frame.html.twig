@@ -1,0 +1,13 @@
+<twig:Turbo:Frame id="{{ field.customOption('frame_id') }}"
+                  loading="{{ field.customOption('frame_lazy_loading') ? 'lazy' : 'eager' }}"
+                  src="{{ field.customOption('frame_url') }}">
+
+    {% if field.customOption('placeholder_template_path') is not null %}
+        {{ include(
+            field.customOption('placeholder_template_path'),
+            field.customOption('placeholder_template_context'),
+            with_context = false
+        ) }}
+    {% endif %}
+
+</twig:Turbo:Frame>

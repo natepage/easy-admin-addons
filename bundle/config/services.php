@@ -10,6 +10,7 @@ use NatePage\EasyAdminAddons\Doctrine\PersistenceDriverManagerRegistry;
 use NatePage\EasyAdminAddons\Field\Configurator\EmbeddedCrudIndexConfigurator;
 use NatePage\EasyAdminAddons\Field\Configurator\TextTruncateMiddleConfigurator;
 use NatePage\EasyAdminAddons\Field\Configurator\TimezoneConfigurator as FieldTimezoneConfigurator;
+use NatePage\EasyAdminAddons\Field\Configurator\TurboFrameConfigurator;
 use NatePage\EasyAdminAddons\Filter\Configurator\TimezoneConfigurator as FilterTimezoneConfigurator;
 use NatePage\EasyAdminAddons\Helper\EntityDtoHelper;
 use NatePage\EasyAdminAddons\Listener\AdminAddonsContextResolverListener;
@@ -42,6 +43,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(EmbeddedCrudIndexConfigurator::class);
     $services->set(FieldTimezoneConfigurator::class);
     $services->set(TextTruncateMiddleConfigurator::class);
+    $services->set(TurboFrameConfigurator::class);
 
     // Filter Configurator
     $services->set(FilterTimezoneConfigurator::class);
