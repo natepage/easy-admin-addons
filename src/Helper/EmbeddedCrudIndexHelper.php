@@ -39,10 +39,12 @@ final readonly class EmbeddedCrudIndexHelper
             Crud::PAGE_DETAIL
         );
 
-        $this->actionFactory->processGlobalActionsAndEntityActionsForAll(
-            $entitiesCollection,
-            $actions->getAsDto(Crud::PAGE_DETAIL)
-        );
+        if ($actions) {
+            $this->actionFactory->processGlobalActionsAndEntityActionsForAll(
+                $entitiesCollection,
+                $actions->getAsDto(Crud::PAGE_DETAIL)
+            );
+        }
 
         return $entitiesCollection;
     }
