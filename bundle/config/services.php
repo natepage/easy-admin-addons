@@ -7,9 +7,11 @@ use NatePage\EasyAdminAddons\Bundle\Enum\ConfigParam;
 use NatePage\EasyAdminAddons\Context\AdminAddonsContextProvider;
 use NatePage\EasyAdminAddons\Context\AdminAddonsContextProviderInterface;
 use NatePage\EasyAdminAddons\Doctrine\PersistenceDriverManagerRegistry;
+use NatePage\EasyAdminAddons\Field\Configurator\EmbeddedCrudIndexConfigurator;
 use NatePage\EasyAdminAddons\Field\Configurator\TextTruncateMiddleConfigurator;
 use NatePage\EasyAdminAddons\Field\Configurator\TimezoneConfigurator as FieldTimezoneConfigurator;
 use NatePage\EasyAdminAddons\Filter\Configurator\TimezoneConfigurator as FilterTimezoneConfigurator;
+use NatePage\EasyAdminAddons\Helper\EntityDtoHelper;
 use NatePage\EasyAdminAddons\Listener\AdminAddonsContextResolverListener;
 use NatePage\EasyAdminAddons\Orm\PersistenceDriverEntityPaginator;
 use NatePage\EasyAdminAddons\Persistence\PersistenceDriverRegistry;
@@ -37,11 +39,15 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]);
 
     // Field Configurator
+    $services->set(EmbeddedCrudIndexConfigurator::class);
     $services->set(FieldTimezoneConfigurator::class);
     $services->set(TextTruncateMiddleConfigurator::class);
 
     // Filter Configurator
     $services->set(FilterTimezoneConfigurator::class);
+
+    // Helper
+    $services->set(EntityDtoHelper::class);
 
     // Persistence
     $services->set(PersistenceDriverRegistryInterface::class, PersistenceDriverRegistry::class);
