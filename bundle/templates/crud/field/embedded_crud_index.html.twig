@@ -2,8 +2,6 @@
 {# @var entities \EasyCorp\Bundle\EasyAdminBundle\Collection\EntityCollection #}
 {# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
 
-{% set entities = field.value %}
-
 <div class="card card-table">
     <div class="card-body">
         <table class="table datagrid">
@@ -21,7 +19,7 @@
                 {% endfor %}
 
                 <th class="{{ ea.crud.showEntityActionsAsDropdown ? 'actions-as-dropdown-table-head' }}" dir="{{ ea.i18n.textDirection }}">
-{#                    <span class="visually-hidden">{{ t('action.entity_actions', ea.i18n.translationParameters|default({}), 'EasyAdminBundle')|trans }}</span>#}
+                    <span class="visually-hidden">{{ t('action.entity_actions', ea.i18n.translationParameters|default({}), 'EasyAdminBundle')|trans }}</span>
                 </th>
             </tr>
             </thead>
