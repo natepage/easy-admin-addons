@@ -7,7 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 use Symfony\Contracts\Translation\TranslatableInterface;
 
-final readonly class TurboFrameField implements FieldInterface
+final class TurboFrameField implements FieldInterface
 {
     public const string OPTION_FRAME_ID = 'frame_id';
 
