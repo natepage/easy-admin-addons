@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\EntityCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Contracts\Provider\AdminContextProviderInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\ActionFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\EntityFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\FieldFactory;
@@ -16,6 +17,7 @@ final readonly class EmbeddedCrudIndexHelper
 {
     public function __construct(
         private ActionFactory $actionFactory,
+        private AdminContextProviderInterface $adminContextProvider,
         private EntityFactory $entityFactory,
         private FieldFactory $fieldFactory,
         private TemplateResolverInterface $templateResolver,
@@ -28,6 +30,11 @@ final readonly class EmbeddedCrudIndexHelper
         iterable $fields,
         ?Actions $actions = null,
     ): EntityCollection {
+        // In order for field configurators to work as expected we must fake the current page to be the index or detail.
+        $context = $this->adminContextProvider->getContext();
+        $currentPage = $context->getCrud()?->getCurrentPage();
+        $context->getCrud()?->setPageName(Crud::PAGE_INDEX);
+
         $entitiesCollection = $this->entityFactory->createCollection(
             $this->entityFactory->create($entityClass),
             $instances
@@ -36,15 +43,18 @@ final readonly class EmbeddedCrudIndexHelper
         $this->fieldFactory->processFieldsForAll(
             $entitiesCollection,
             new FieldCollection($fields),
-            Crud::PAGE_DETAIL
+            Crud::PAGE_INDEX
         );
 
         if ($actions) {
             $this->actionFactory->processGlobalActionsAndEntityActionsForAll(
                 $entitiesCollection,
-                $actions->getAsDto(Crud::PAGE_DETAIL)
+                $actions->getAsDto(Crud::PAGE_INDEX)
             );
         }
+
+        // Restore current page to what it was
+        $context->getCrud()?->setPageName($currentPage);
 
         return $entitiesCollection;
     }
