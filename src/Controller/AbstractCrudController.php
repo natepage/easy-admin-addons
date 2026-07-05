@@ -9,6 +9,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController as BaseAbstractCrudController;
 use NatePage\EasyAdminAddons\Config\CrudAddons;
 use NatePage\EasyAdminAddons\Context\AdminAddonsContextProviderInterface;
+use NatePage\EasyAdminAddons\Twig\Resolver\TemplateResolverInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Service\Attribute\Required;
 
 abstract class AbstractCrudController extends BaseAbstractCrudController
@@ -36,10 +38,18 @@ abstract class AbstractCrudController extends BaseAbstractCrudController
 
     private AdminAddonsContextProviderInterface $adminAddonsContextProvider;
 
+    private TemplateResolverInterface $templateResolver;
+
     #[Required]
     public function setAdminAddonsContextProvider(AdminAddonsContextProviderInterface $provider): void
     {
         $this->adminAddonsContextProvider = $provider;
+    }
+
+    #[Required]
+    public function setTemplateResolver(TemplateResolverInterface $templateResolver): void
+    {
+        $this->templateResolver = $templateResolver;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -77,6 +87,20 @@ abstract class AbstractCrudController extends BaseAbstractCrudController
     public function configureCrudAddons(CrudAddons $crudAddons): CrudAddons
     {
         return $crudAddons;
+    }
+
+    protected function renderTurboFrame(
+        string $templatePath,
+        ?array $templateContext = null,
+        ?string $frameId = null
+    ): Response {
+        $frameTemplate = $this->templateResolver->resolvePath('turbo/frame.html.twig');
+
+        return $this->render($frameTemplate, [
+            'frameId' => $frameId,
+            'templatePath' => $templatePath,
+            'templateContext' => $templateContext,
+        ]);
     }
 
     protected function resetActionPermissions(Actions $actions, string $actionName): void

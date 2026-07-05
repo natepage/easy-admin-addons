@@ -1,10 +1,6 @@
 {# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
 {# @var entities \EasyCorp\Bundle\EasyAdminBundle\Collection\EntityCollection #}
 
-{% if turbo_is_frame_request() %}
-    <twig:Turbo:Frame id="{{ turbo_frame_request_id() }}">
-{% endif %}
-
 <div class="card card-table">
     <div class="card-body">
         <table class="table datagrid">
@@ -88,7 +84,3 @@
         </table>
     </div>
 </div>
-
-{% if turbo_is_frame_request() %}
-    </twig:Turbo:Frame>
-{% endif %}
