@@ -6,6 +6,7 @@ namespace NatePage\EasyAdminAddons\Controller;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Contracts\Router\AdminRouteGeneratorInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController as BaseAbstractCrudController;
 use NatePage\EasyAdminAddons\Config\CrudAddons;
 use NatePage\EasyAdminAddons\Context\AdminAddonsContextProviderInterface;
@@ -38,12 +39,20 @@ abstract class AbstractCrudController extends BaseAbstractCrudController
 
     private AdminAddonsContextProviderInterface $adminAddonsContextProvider;
 
+    private AdminRouteGeneratorInterface $adminRouteGenerator;
+
     private TemplateResolverInterface $templateResolver;
 
     #[Required]
     public function setAdminAddonsContextProvider(AdminAddonsContextProviderInterface $provider): void
     {
         $this->adminAddonsContextProvider = $provider;
+    }
+
+    #[Required]
+    public function setAdminRouteGenerator(AdminRouteGeneratorInterface $adminRouteGenerator): void
+    {
+        $this->adminRouteGenerator = $adminRouteGenerator;
     }
 
     #[Required]
@@ -87,6 +96,14 @@ abstract class AbstractCrudController extends BaseAbstractCrudController
     public function configureCrudAddons(CrudAddons $crudAddons): CrudAddons
     {
         return $crudAddons;
+    }
+
+    protected function resolveRouteName(
+        ?string $dashboardFqcn = null,
+        ?string $crudControllerFqcn = null,
+        ?string $actionName = null
+    ): string {
+        return $this->adminRouteGenerator->findRouteName($dashboardFqcn, $crudControllerFqcn, $actionName);
     }
 
     protected function renderTurboFrame(
