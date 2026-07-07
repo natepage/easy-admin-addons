@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use EasyCorp\Bundle\EasyAdminBundle\Contracts\Router\AdminRouteGeneratorInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminRouteGenerator;
 use NatePage\EasyAdminAddons\Bundle\Enum\ConfigParam;
 use NatePage\EasyAdminAddons\Context\AdminAddonsContextProvider;
 use NatePage\EasyAdminAddons\Context\AdminAddonsContextProviderInterface;
@@ -53,6 +55,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PersistenceDriverRegistryInterface::class, PersistenceDriverRegistry::class);
     $services->set(PersistenceDriverEntityPaginator::class);
     $services->set(PersistenceDriverManagerRegistry::class);
+
+    // Routing
+    $services->alias(AdminRouteGeneratorInterface::class, AdminRouteGenerator::class);
 
     // Timezone
     $services
