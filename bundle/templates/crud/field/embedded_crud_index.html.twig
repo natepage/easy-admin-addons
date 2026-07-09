@@ -3,7 +3,9 @@
 
 <div class="card card-table">
     <div class="card-body">
-        <table class="table datagrid" data-default-action-trigger="{{ ea.crud.defaultRowActionTrigger|default('double') }}">
+        <table class="table datagrid"
+               data-controller="embedded-crud-index"
+               data-default-action-trigger="{{ ea.crud.defaultRowActionTrigger|default('double') }}">
             <thead>
             <tr>
                 {% for subField in entities.first.fields %}
