@@ -30,13 +30,13 @@ final readonly class EmbeddedCrudIndexHelper
         iterable $fields,
         ?Actions $actions = null,
         null|array|string $defaultRowAction = null,
+        ?bool $showEntityActionsAsDropdown = null
     ): EntityCollection {
         $context = $this->adminContextProvider->getContext();
-        $currentPage = $context->getCrud()?->getCurrentPage();
-        $bkpDefaultRowAction = $context->getCrud()?->getDefaultRowAction();
 
         // In order for field configurators to work as expected we must fake the current page to be the index or detail.
         $context->getCrud()?->setPageName(Crud::PAGE_INDEX);
+        $context->getCrud()?->setShowEntityActionsAsDropdown($showEntityActionsAsDropdown ?? true);
 
         if ($defaultRowAction) {
             $context->getCrud()?->setDefaultRowAction($defaultRowAction);
@@ -59,10 +59,6 @@ final readonly class EmbeddedCrudIndexHelper
                 $actions->getAsDto(Crud::PAGE_INDEX)
             );
         }
-
-        // Restore CRUD
-        $context->getCrud()?->setDefaultRowAction($bkpDefaultRowAction);
-        $context->getCrud()?->setPageName($currentPage);
 
         return $entitiesCollection;
     }
