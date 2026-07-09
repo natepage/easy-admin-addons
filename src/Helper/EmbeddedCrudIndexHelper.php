@@ -29,11 +29,18 @@ final readonly class EmbeddedCrudIndexHelper
         iterable $instances,
         iterable $fields,
         ?Actions $actions = null,
+        null|array|string $defaultRowAction = null,
     ): EntityCollection {
-        // In order for field configurators to work as expected we must fake the current page to be the index or detail.
         $context = $this->adminContextProvider->getContext();
         $currentPage = $context->getCrud()?->getCurrentPage();
+        $bkpDefaultRowAction = $context->getCrud()?->getDefaultRowAction();
+
+        // In order for field configurators to work as expected we must fake the current page to be the index or detail.
         $context->getCrud()?->setPageName(Crud::PAGE_INDEX);
+
+        if ($defaultRowAction) {
+            $context->getCrud()?->setDefaultRowAction($defaultRowAction);
+        }
 
         $entitiesCollection = $this->entityFactory->createCollection(
             $this->entityFactory->create($entityClass),
@@ -53,7 +60,8 @@ final readonly class EmbeddedCrudIndexHelper
             );
         }
 
-        // Restore current page to what it was
+        // Restore CRUD
+        $context->getCrud()?->setDefaultRowAction($bkpDefaultRowAction);
         $context->getCrud()?->setPageName($currentPage);
 
         return $entitiesCollection;
