@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Router\AdminRouteGeneratorInterface;
+use EasyCorp\Bundle\EasyAdminBundle\DependencyInjection\EasyAdminExtension;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminRouteGenerator;
 use NatePage\EasyAdminAddons\Bundle\Enum\ConfigParam;
 use NatePage\EasyAdminAddons\Context\AdminAddonsContextProvider;
@@ -41,7 +42,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]);
 
     // Field Configurator
-    $services->set(FieldTimezoneConfigurator::class);
+    $services
+        ->set(FieldTimezoneConfigurator::class)
+        ->tag(EasyAdminExtension::TAG_FIELD_CONFIGURATOR, ['priority' => 1]);
+
     $services->set(TextTruncateMiddleConfigurator::class);
     $services->set(TurboFrameConfigurator::class);
 
