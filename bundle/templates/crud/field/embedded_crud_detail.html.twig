@@ -1,0 +1,6 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+{% set ea = ea() %}
+{% trans_default_domain ea.i18n.translationDomain %}
+
+{{ block('detail_fields', ea.templatePath('crud/detail')) }}

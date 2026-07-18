@@ -8,12 +8,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Provider\AdminContextProviderInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\ActionFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\EntityFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\FieldFactory;
 use NatePage\EasyAdminAddons\Twig\Resolver\TemplateResolverInterface;
 
-final readonly class EmbeddedCrudIndexHelper
+final readonly class EmbeddedCrudHelper
 {
     public function __construct(
         private ActionFactory $actionFactory,
@@ -24,7 +25,23 @@ final readonly class EmbeddedCrudIndexHelper
     ) {
     }
 
-    public function configureEntityCollection(
+    public function configureDetailEntity(object $entity, iterable $fields, ?Actions $actions = null): EntityDto
+    {
+        $context = $this->adminContextProvider->getContext();
+        $context->getCrud()?->setPageName(Crud::PAGE_DETAIL);
+
+        $entityDto = $this->entityFactory->createForEntityInstance($entity);
+
+        $this->fieldFactory->processFields($entityDto, new FieldCollection($fields), Crud::PAGE_DETAIL);
+
+        if ($actions) {
+            $this->actionFactory->processEntityActions($entityDto, $actions->getAsDto(Crud::PAGE_DETAIL));
+        }
+
+        return $entityDto;
+    }
+
+    public function configureIndexEntityCollection(
         string $entityClass,
         iterable $instances,
         iterable $fields,
@@ -34,7 +51,7 @@ final readonly class EmbeddedCrudIndexHelper
     ): EntityCollection {
         $context = $this->adminContextProvider->getContext();
 
-        // In order for field configurators to work as expected we must fake the current page to be the index or detail.
+        // In order for field configurators to work as expected we must fake the current page to be the index.
         $context->getCrud()?->setPageName(Crud::PAGE_INDEX);
         $context->getCrud()?->setShowEntityActionsAsDropdown($showEntityActionsAsDropdown ?? true);
 
@@ -63,7 +80,12 @@ final readonly class EmbeddedCrudIndexHelper
         return $entitiesCollection;
     }
 
-    public function getTemplatePath(): string
+    public function getDetailTemplatePath(): string
+    {
+        return $this->templateResolver->resolvePath('crud/field/embedded_crud_detail.html.twig');
+    }
+
+    public function getIndexTemplatePath(): string
     {
         return $this->templateResolver->resolvePath('crud/field/embedded_crud_index.html.twig');
     }
