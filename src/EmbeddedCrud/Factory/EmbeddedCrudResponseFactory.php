@@ -5,6 +5,7 @@ namespace NatePage\EasyAdminAddons\EmbeddedCrud\Factory;
 
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Provider\AdminContextProviderInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\ActionFactory;
@@ -63,9 +64,17 @@ final readonly class EmbeddedCrudResponseFactory
         $context = $this->adminContextProvider->getContext();
         $addonsContext = $this->adminAddonsContextProvider->getAdminAddonsContext();
 
+        $fields = new FieldCollection($embeddedIndexDto->getFields());
+
         // In order for field configurators to work as expected we must fake the current page to be the index.
         $context->getCrud()?->setPageName(Crud::PAGE_INDEX);
         $context->getCrud()?->setShowEntityActionsAsDropdown($embeddedIndexDto->getShowEntityActionsAsDropdown() ?? true);
+
+        // By default, disable search and mark all fields as not sortable
+        $context->getCrud()?->setSearchFields([]);
+        foreach ($fields as $field) {
+            $field->setSortable(false);
+        }
 
         if ($embeddedIndexDto->getDefaultRowAction()) {
             $context->getCrud()?->setDefaultRowAction($embeddedIndexDto->getDefaultRowAction());
@@ -79,11 +88,7 @@ final readonly class EmbeddedCrudResponseFactory
             $this->entityPaginator->getResults()
         );
 
-        $this->fieldFactory->processFieldsForAll(
-            $entitiesCollection,
-            new FieldCollection($embeddedIndexDto->getFields()),
-            Crud::PAGE_INDEX
-        );
+        $this->fieldFactory->processFieldsForAll($entitiesCollection, $fields, Crud::PAGE_INDEX);
 
         if ($embeddedIndexDto->getActions()) {
             $this->actionFactory->processGlobalActionsAndEntityActionsForAll(
