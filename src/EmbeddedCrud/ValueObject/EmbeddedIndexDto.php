@@ -20,6 +20,10 @@ final class EmbeddedIndexDto
      */
     private $paginatorCallback;
 
+    private ?string $paginatorRouteName = null;
+
+    private ?array $paginatorRouteParams = null;
+
     private ?bool $showEntityActionsAsDropdown = null;
 
     public function getActions(): ?Actions
@@ -74,6 +78,28 @@ final class EmbeddedIndexDto
     public function setPaginatorCallback(callable $paginatorCallback): EmbeddedIndexDto
     {
         $this->paginatorCallback = $paginatorCallback;
+        return $this;
+    }
+
+    public function getPaginatorRouteName(): ?string
+    {
+        return $this->paginatorRouteName;
+    }
+
+    public function setPaginatorRouteName(?string $paginatorRouteName): EmbeddedIndexDto
+    {
+        $this->paginatorRouteName = $paginatorRouteName;
+        return $this;
+    }
+
+    public function getPaginatorRouteParams(): ?array
+    {
+        return $this->paginatorRouteParams;
+    }
+
+    public function setPaginatorRouteParams(?array $paginatorRouteParams): EmbeddedIndexDto
+    {
+        $this->paginatorRouteParams = $paginatorRouteParams;
         return $this;
     }
 

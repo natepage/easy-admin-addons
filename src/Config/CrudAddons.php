@@ -19,6 +19,10 @@ final class CrudAddons
 
     public ?string $entityPaginatorObjectClass = null;
 
+    public ?string $entityPaginatorRouteName = null;
+
+    public ?array $entityPaginatorRouteParams = null;
+
     public string|PersistenceDriver $persistenceDriver = PersistenceDriver::Default {
         get {
             return $this->persistenceDriver instanceof PersistenceDriver

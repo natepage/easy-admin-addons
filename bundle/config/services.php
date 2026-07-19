@@ -15,7 +15,6 @@ use NatePage\EasyAdminAddons\Field\Configurator\TextTruncateMiddleConfigurator;
 use NatePage\EasyAdminAddons\Field\Configurator\TimezoneConfigurator as FieldTimezoneConfigurator;
 use NatePage\EasyAdminAddons\Field\Configurator\TurboFrameConfigurator;
 use NatePage\EasyAdminAddons\Filter\Configurator\TimezoneConfigurator as FilterTimezoneConfigurator;
-use NatePage\EasyAdminAddons\Helper\EmbeddedCrudHelper;
 use NatePage\EasyAdminAddons\Listener\AdminAddonsContextResolverListener;
 use NatePage\EasyAdminAddons\Orm\PersistenceDriverEntityPaginator;
 use NatePage\EasyAdminAddons\Persistence\PersistenceDriverRegistry;
@@ -55,9 +54,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // Filter Configurator
     $services->set(FilterTimezoneConfigurator::class);
-
-    // Helper
-    $services->set(EmbeddedCrudHelper::class);
 
     // Persistence
     $services->set(PersistenceDriverRegistryInterface::class, PersistenceDriverRegistry::class);

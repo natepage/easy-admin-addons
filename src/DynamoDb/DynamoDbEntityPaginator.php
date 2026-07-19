@@ -57,7 +57,18 @@ final class DynamoDbEntityPaginator implements EntityPaginatorInterface, ResetIn
 
     public function generateUrlForPage(int $page): string
     {
+        $crudAddons = $this->addonsContextProvider->getAdminAddonsContext()->getCrudAddons();
         $currentRequest = $this->getCurrentRequest();
+
+        if (StringHelper::isNotEmpty($crudAddons->entityPaginatorRouteName)) {
+            $routeParams = $crudAddons->entityPaginatorRouteParams ?? [];
+            $routeParams[self::QUERY_LAST_EVALUATED_KEY] = $this->objectRepository?->lastEvaluatedKey;
+            $routeParams[EA::PAGE] = $page;
+
+            return $this->adminUrlGenerator
+                ->setRoute($crudAddons->entityPaginatorRouteName, $routeParams)
+                ->generateUrl();
+        }
 
         return $this->adminUrlGenerator
             ->set(EA::PAGE, $page)
@@ -69,7 +80,11 @@ final class DynamoDbEntityPaginator implements EntityPaginatorInterface, ResetIn
 
     public function getCurrentPage(): int
     {
-        return \max(1, $this->paginatorDto?->getPageNumber() ?? 1);
+        $currentPage = $this->paginatorDto?->getPageNumber()
+            ?? $this->getCurrentRequest()->query->get(EA::PAGE)
+            ?? 1;
+
+        return \max(1, $currentPage);
     }
 
     public function getLastPage(): int
