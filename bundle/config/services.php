@@ -10,6 +10,7 @@ use NatePage\EasyAdminAddons\Bundle\Enum\ConfigParam;
 use NatePage\EasyAdminAddons\Context\AdminAddonsContextProvider;
 use NatePage\EasyAdminAddons\Context\AdminAddonsContextProviderInterface;
 use NatePage\EasyAdminAddons\Doctrine\PersistenceDriverManagerRegistry;
+use NatePage\EasyAdminAddons\EmbeddedCrud\Factory\EmbeddedCrudResponseFactory;
 use NatePage\EasyAdminAddons\Field\Configurator\TextTruncateMiddleConfigurator;
 use NatePage\EasyAdminAddons\Field\Configurator\TimezoneConfigurator as FieldTimezoneConfigurator;
 use NatePage\EasyAdminAddons\Field\Configurator\TurboFrameConfigurator;
@@ -40,6 +41,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->tag('kernel.event_listener', [
             'priority' => 2, // Must be higher than EasyCorp\Bundle\EasyAdminBundle\EventListener\AdminRouterSubscriber
         ]);
+
+    // Embedded Crud
+    $services->set(EmbeddedCrudResponseFactory::class);
 
     // Field Configurator
     $services

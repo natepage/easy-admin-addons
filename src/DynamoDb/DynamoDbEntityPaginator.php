@@ -143,8 +143,11 @@ final class DynamoDbEntityPaginator implements EntityPaginatorInterface, ResetIn
             throw new \RuntimeException('The paginator cannot get the results because the "entityPaginatorGetResultsCallback" callback is not configured in the CrudAddons.');
         }
 
-        $from = $this->queryBuilder?->getDQLPart('from')[0] ?? null;
-        $objectClass = $from instanceof From ? $from->getFrom() : null;
+        $objectClass = $crudAddons->entityPaginatorObjectClass;
+        if (StringHelper::isEmpty($objectClass)) {
+            $from = $this->queryBuilder?->getDQLPart('from')[0] ?? null;
+            $objectClass = $from instanceof From ? $from->getFrom() : null;
+        }
 
         $this->objectRepository = $this->objectRepositoryRegistry->get($objectClass);
 
@@ -161,7 +164,7 @@ final class DynamoDbEntityPaginator implements EntityPaginatorInterface, ResetIn
         $callbackParams = $this->argumentResolver->getArguments($newRequest, $getResultsCallback);
         $results = $getResultsCallback(...$callbackParams);
         if (\is_array($results) === false && $results instanceof \Traversable === false) {
-            throw new \RuntimeException(sprintf('The paginator "entityPaginatorGetResultsCallback" callback must return an array or an instance of Traversable, "%s" returned.', get_debug_type($results)));
+            throw new \RuntimeException(\sprintf('The paginator "entityPaginatorGetResultsCallback" callback must return an array or an instance of Traversable, "%s" returned.', \get_debug_type($results)));
         }
 
         return $this->results = \is_array($results) ? $results : \iterator_to_array($results);

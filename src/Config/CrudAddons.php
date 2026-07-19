@@ -17,6 +17,8 @@ final class CrudAddons
      */
     public $entityPaginatorGetResultsCallback = null;
 
+    public ?string $entityPaginatorObjectClass = null;
+
     public string|PersistenceDriver $persistenceDriver = PersistenceDriver::Default {
         get {
             return $this->persistenceDriver instanceof PersistenceDriver
