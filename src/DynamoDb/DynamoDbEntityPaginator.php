@@ -81,8 +81,7 @@ final class DynamoDbEntityPaginator implements EntityPaginatorInterface, ResetIn
     public function getCurrentPage(): int
     {
         $currentPage = $this->paginatorDto?->getPageNumber()
-            ?? $this->getCurrentRequest()->query->get(EA::PAGE)
-            ?? 1;
+            ?? $this->getCurrentRequest()->query->getInt(EA::PAGE, 1);
 
         return \max(1, $currentPage);
     }

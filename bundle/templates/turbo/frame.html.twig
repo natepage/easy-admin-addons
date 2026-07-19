@@ -1,3 +1,3 @@
-<twig:Turbo:Frame id="{{ turbo_frame_request_id() ?? frameId|default('') }}">
+<twig:Turbo:Frame id="{{ turbo_frame_request_id() ?? frameId|default('') }}" data-turbo="true">
     {{ include(templatePath, templateContext|default({}), with_context: true) }}
 </twig:Turbo:Frame>
