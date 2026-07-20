@@ -2,4 +2,6 @@
 {% set ea = ea() %}
 {% trans_default_domain ea.i18n.translationDomain %}
 
-{{ block('main', ea.templatePath('crud/index')) }}
+<div data-controller="embedded-crud-index">
+    {{ block('main', ea.templatePath('crud/index')) }}
+</div>
