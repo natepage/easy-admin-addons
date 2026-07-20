@@ -5,6 +5,8 @@ export default class extends Controller {
     connect() {
         const clickableRows = this.element.querySelectorAll('tr.ea-clickable-row[data-default-action-url]');
         if (0 === clickableRows.length) {
+            console.log('No clickable rows found...');
+
             return;
         }
 
