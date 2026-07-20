@@ -3,11 +3,13 @@ declare(strict_types=1);
 
 namespace NatePage\EasyAdminAddons\EmbeddedCrud\Factory;
 
+use Doctrine\Persistence\ManagerRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Contracts\Context\AdminContextInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Provider\AdminContextProviderInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\PaginatorDto;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\ActionFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\EntityFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\FieldFactory;
@@ -24,6 +26,7 @@ final readonly class EmbeddedCrudResponseFactory
         private AdminContextProviderInterface $adminContextProvider,
         private AdminAddonsContextProviderInterface $adminAddonsContextProvider,
         private EntityFactory $entityFactory,
+        private ManagerRegistry $managerRegistry,
         private EntityPaginatorInterface $entityPaginator,
         private FieldFactory $fieldFactory,
         private TemplateResolverInterface $templateResolver,
@@ -85,6 +88,11 @@ final readonly class EmbeddedCrudResponseFactory
         $addonsContext->getCrudAddons()->entityPaginatorRouteName = $embeddedIndexDto->getPaginatorRouteName();
         $addonsContext->getCrudAddons()->entityPaginatorRouteParams = $embeddedIndexDto->getPaginatorRouteParams();
 
+        $this->entityPaginator->paginate(
+            $this->getPaginatorDto($context, $embeddedIndexDto),
+            $this->managerRegistry->getManagerForClass($embeddedIndexDto->getEntityClass())?->createQueryBuilder()
+        );
+
         $entitiesCollection = $this->entityFactory->createCollection(
             $this->entityFactory->create($embeddedIndexDto->getEntityClass()),
             $this->entityPaginator->getResults()
@@ -103,5 +111,24 @@ final readonly class EmbeddedCrudResponseFactory
             'entities' => $entitiesCollection,
             'paginator' => $this->entityPaginator,
         ]);
+    }
+
+    private function getPaginatorDto(
+        AdminContextInterface $adminContext,
+        EmbeddedIndexDto $embeddedIndexDto
+    ): PaginatorDto {
+        $paginatorDto = $adminContext->getCrud()->getPaginator();
+
+        if ($embeddedIndexDto->getPageSize() === null || $embeddedIndexDto->getPageSize() < 1) {
+            return $paginatorDto;
+        }
+
+        return new PaginatorDto(
+            pageSize: $embeddedIndexDto->getPageSize(),
+            rangeSize: $paginatorDto->getRangeSize(),
+            rangeEdgeSize: $paginatorDto->getRangeEdgeSize(),
+            fetchJoinCollection: $paginatorDto->fetchJoinCollection(),
+            useOutputWalkers: $paginatorDto->useOutputWalkers()
+        );
     }
 }

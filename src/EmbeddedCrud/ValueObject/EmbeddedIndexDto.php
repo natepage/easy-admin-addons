@@ -15,6 +15,8 @@ final class EmbeddedIndexDto
 
     private iterable $fields;
 
+    private ?int $pageSize = null;
+
     /**
      * @var callable
      */
@@ -67,6 +69,17 @@ final class EmbeddedIndexDto
     public function setFields(iterable $fields): EmbeddedIndexDto
     {
         $this->fields = $fields;
+        return $this;
+    }
+
+    public function getPageSize(): ?int
+    {
+        return $this->pageSize;
+    }
+
+    public function setPageSize(?int $pageSize): EmbeddedIndexDto
+    {
+        $this->pageSize = $pageSize;
         return $this;
     }
 

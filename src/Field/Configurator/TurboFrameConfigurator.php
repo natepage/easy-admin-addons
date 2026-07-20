@@ -22,6 +22,18 @@ final readonly class TurboFrameConfigurator implements FieldConfiguratorInterfac
         $this->setFrameId($field, $entityDto);
         $this->setFrameUrl($field, $entityDto);
         $this->setPlaceholderTemplate($field, $entityDto);
+
+        // Resolve frame target
+        $field->setCustomOption(
+            TurboFrameField::OPTION_FRAME_TARGET,
+            $this->getCustomOptionValue(TurboFrameField::OPTION_FRAME_TARGET, $field, $entityDto)
+        );
+
+        // Default TurboDriver to enabled
+        $field->setCustomOption(
+            TurboFrameField::OPTION_TURBO_DRIVE_ENABLED,
+            $this->getCustomOptionValue(TurboFrameField::OPTION_TURBO_DRIVE_ENABLED, $field, $entityDto) ?? true
+        );
     }
 
     public function supports(FieldDto $field, EntityDto $entityDto): bool

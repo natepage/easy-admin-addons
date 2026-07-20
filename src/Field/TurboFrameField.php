@@ -13,6 +13,8 @@ final class TurboFrameField implements FieldInterface
 
     public const string OPTION_FRAME_LAZY_LOADING = 'frame_lazy_loading';
 
+    public const string OPTION_FRAME_TARGET = 'frame_target';
+
     public const string OPTION_FRAME_URL = 'frame_url';
 
     public const string OPTION_PLACEHOLDER_TEMPLATE_PATH = 'placeholder_template_path';
@@ -22,6 +24,8 @@ final class TurboFrameField implements FieldInterface
     public const string OPTION_ROUTE_NAME = 'route_name';
 
     public const string OPTION_ROUTE_PARAMS = 'route_params';
+
+    public const string OPTION_TURBO_DRIVE_ENABLED = 'turbo_drive_enabled';
 
     use FieldTrait;
 
@@ -37,6 +41,13 @@ final class TurboFrameField implements FieldInterface
     public function setFrameId(callable|string $frameId): self
     {
         $this->dto->setCustomOption(self::OPTION_FRAME_ID, $frameId);
+
+        return $this;
+    }
+
+    public function setFrameTarget(callable|string $frameTarget): self
+    {
+        $this->dto->setCustomOption(self::OPTION_FRAME_TARGET, $frameTarget);
 
         return $this;
     }
@@ -79,6 +90,13 @@ final class TurboFrameField implements FieldInterface
     public function setRouteParams(callable|array $routeParams): self
     {
         $this->dto->setCustomOption(self::OPTION_ROUTE_PARAMS, $routeParams);
+
+        return $this;
+    }
+
+    public function setTurboDriveEnabled(bool $turboDriveEnabled): self
+    {
+        $this->dto->setCustomOption(self::OPTION_TURBO_DRIVE_ENABLED, $turboDriveEnabled);
 
         return $this;
     }
