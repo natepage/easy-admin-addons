@@ -1,8 +1,8 @@
 <twig:Turbo:Frame id="{{ field.customOption('frame_id') }}"
                   loading="{{ field.customOption('frame_lazy_loading') ? 'lazy' : 'eager' }}"
+                  target="{{ field.customOption('frame_target') ?? field.customOption('frame_id') }}"
                   src="{{ field.customOption('frame_url') }}"
-                  data-turbo="{{ field.customOption('turbo_drive_enabled') ? 'true' : 'false' }}"
-                  {% if field.customOption('frame_target') is not null %}target="{{ field.customOption('frame_target') }}"{% endif %}>
+                  data-turbo="{{ field.customOption('turbo_drive_enabled') ? 'true' : 'false' }}">
 
     {% if field.customOption('placeholder_template_path') is not null %}
         {{ include(
