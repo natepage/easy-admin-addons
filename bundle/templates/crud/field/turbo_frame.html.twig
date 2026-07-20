@@ -1,6 +1,8 @@
 <twig:Turbo:Frame id="{{ field.customOption('frame_id') }}"
                   loading="{{ field.customOption('frame_lazy_loading') ? 'lazy' : 'eager' }}"
-                  src="{{ field.customOption('frame_url') }}">
+                  src="{{ field.customOption('frame_url') }}"
+                  data-turbo="true"
+                  target="_self">
 
     {% if field.customOption('placeholder_template_path') is not null %}
         {{ include(
