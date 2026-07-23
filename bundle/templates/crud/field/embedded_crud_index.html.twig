@@ -1,9 +1,11 @@
 {# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
 
 {% set ea = ea() %}
-{% trans_default_domain ea.i18n.translationDomain %}
-
 {% set filters = [] %}
+
+{# Temporary fix #}
+{# crud/index template breaks without it, variable name is generated using template name so should be stable enough #}
+{% set __internal_trans_default_domain7ef3c118ccfab12c5ee65c5e56454206 = ea.i18n.translationDomain %}
 
 <div data-controller="embedded-crud-index">
     {{ block('main', ea.templatePath('crud/index')) }}
