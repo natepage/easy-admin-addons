@@ -3,16 +3,21 @@ declare(strict_types=1);
 
 namespace NatePage\EasyAdminAddons\Doctrine;
 
+use Doctrine\Persistence\AbstractManagerRegistry;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectRepository;
 use NatePage\EasyAdminAddons\Persistence\PersistenceDriverRegistryInterface;
 
-final readonly class PersistenceDriverManagerRegistry implements ManagerRegistry
+/**
+ * DoctrineBundle has explicit dependency injection on the AbstractManagerRegistry, so had to extend it
+ */
+final class PersistenceDriverManagerRegistry extends AbstractManagerRegistry implements ManagerRegistry
 {
     public function __construct(
-        private PersistenceDriverRegistryInterface $driverRegistry,
+        private readonly PersistenceDriverRegistryInterface $driverRegistry,
     ) {
+        parent::__construct('easy_admin_addons', [], [], 'default', 'default');
     }
 
     public function getDefaultConnectionName(): string
@@ -68,6 +73,15 @@ final readonly class PersistenceDriverManagerRegistry implements ManagerRegistry
     public function getManagerForClass(string $class): ObjectManager|null
     {
         return $this->getRegistry()->getManagerForClass($class);
+    }
+
+    protected function getService(string $name): object
+    {
+        return new \stdClass();
+    }
+
+    protected function resetService(string $name): void
+    {
     }
 
     private function getRegistry(): ManagerRegistry
