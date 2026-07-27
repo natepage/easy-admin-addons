@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use NatePage\EasyAdminAddons\Enum\FieldOption;
+use NatePage\Utils\Helper\StringHelper;
 
 final readonly class TextTruncateMiddleConfigurator implements FieldConfiguratorInterface
 {
@@ -42,7 +43,7 @@ final readonly class TextTruncateMiddleConfigurator implements FieldConfigurator
             ? \strip_tags((string) $value)
             : \htmlspecialchars((string) $value, \ENT_NOQUOTES, null, false);
 
-        $formattedValue = $this->truncateMiddle($formattedValue, $field->getCustomOption(TextField::OPTION_MAX_LENGTH) ?? 64);
+        $formattedValue = StringHelper::truncateMiddle($formattedValue, $field->getCustomOption(TextField::OPTION_MAX_LENGTH) ?? 64);
 
         $field->setFormattedValue($formattedValue);
     }
@@ -50,26 +51,5 @@ final readonly class TextTruncateMiddleConfigurator implements FieldConfigurator
     public function supports(FieldDto $field, EntityDto $entityDto): bool
     {
         return \in_array($field->getFieldFqcn(), [TextField::class, TextareaField::class], true);
-    }
-
-    private function truncateMiddle(string $value, int $maxLength): string
-    {
-        if (\strlen($value) <= $maxLength) {
-            return $value;
-        }
-
-        $ellipsis = '[...]';
-        $halfLeft = \substr($value, 0, (int)(\floor($maxLength / 2) - \strlen($ellipsis)));
-        $halfRight = \substr($value, -((int)\ceil($maxLength / 2)));
-
-        if (\str_ends_with($halfLeft, '.')) {
-            $halfLeft = \rtrim($halfLeft, '.');
-        }
-
-        if (\str_starts_with($halfRight, '.')) {
-            $halfRight = \ltrim($halfRight, '.');
-        }
-
-        return \sprintf('%s%s%s', $halfLeft, $ellipsis, $halfRight);
     }
 }
