@@ -3,7 +3,7 @@
 {% block content_header_wrapper %}
     {{ parent() }}
 
-    {% set contentAlerts = adminAddonsContext.getContentAlerts() %}
+    {% set contentAlerts = adminAddonsContext().getContentAlerts() %}
     {% if contentAlerts|length > 0 %}
         <section class="alerts-wrapper">
             {% for alert in contentAlerts %}
