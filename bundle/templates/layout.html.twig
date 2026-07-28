@@ -1,10 +1,10 @@
 {% extends '@EasyAdmin/layout.html.twig' %}
 
-{% block content_header %}
+{% block content_header_wrapper %}
     {{ parent() }}
 
     {% if alerts is defined and alerts|length > 0 %}
-        <div class="alerts-wrapper">
+        <section class="alerts-wrapper mb-4">
             {% for alert in alerts %}
                 <twig:ea:Alert variant="{{ alert.variant }}"
                                :icon="alert.icon"
@@ -13,6 +13,6 @@
                     {{ alert.message|raw }}
                 </twig:ea:Alert>
             {% endfor %}
-        </div>
+        </section>
     {% endif %}
 {% endblock %}

@@ -2,6 +2,8 @@
     border-width: var(--border-width);
 }
 
-.alert-dismissible .btn-close {
-    inset-block-start: 5px;
+.alerts-wrapper {
+    .alert {
+        border-radius: var(--border-radius)
+    }
 }
