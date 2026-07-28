@@ -11,6 +11,7 @@ final readonly class Alert
         public ?string $icon = null,
         public ?string $title = null,
         public ?bool $withDismissButton = false,
+        public array $translationParams = [],
         public string $translationDomain = 'messages',
     ) {
     }
