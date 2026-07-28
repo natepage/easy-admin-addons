@@ -14,6 +14,7 @@ abstract class AbstractDashboardController extends BaseAbstractDashboardControll
 {
     private const array OVERRIDE_TEMPLATES = [
         'crud/index' => 'crud/index',
+        'layout' => 'layout',
     ];
 
     private TemplateResolverInterface $twigTemplateResolver;
