@@ -9,9 +9,9 @@
                 <twig:ea:Alert class="{{ loop.last ? 'mb-4' : 'mb-2' }}"
                                variant="{{ alert.variant }}"
                                :icon="alert.icon"
-                               :title="alert.title"
+                               :title="alert.title|trans(domain: alert.translationDomain)"
                                :withDismissButton="alert.withDismissButton">
-                    {{ alert.message|raw }}
+                    {{ alert.message|trans(domain: alert.translationDomain)|raw }}
                 </twig:ea:Alert>
             {% endfor %}
         </section>
