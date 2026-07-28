@@ -1,16 +1,18 @@
 {% extends '@EasyAdmin/layout.html.twig' %}
 
-{% block content_help %}
+{% block content_header %}
     {{ parent() }}
 
     {% if alerts is defined and alerts|length > 0 %}
-        {% for alert in alerts %}
-            <twig:ea:Alert variant="{{ alert.variant }}"
-                           :icon="alert.icon"
-                           :title="alert.title"
-                           :withDismissButton="alert.withDismissButton">
-                {{ alert.message|raw }}
-            </twig:ea:Alert>
-        {% endfor %}
+        <div class="alerts-wrapper">
+            {% for alert in alerts %}
+                <twig:ea:Alert variant="{{ alert.variant }}"
+                               :icon="alert.icon"
+                               :title="alert.title"
+                               :withDismissButton="alert.withDismissButton">
+                    {{ alert.message|raw }}
+                </twig:ea:Alert>
+            {% endfor %}
+        </div>
     {% endif %}
 {% endblock %}
