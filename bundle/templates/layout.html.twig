@@ -3,9 +3,10 @@
 {% block content_header_wrapper %}
     {{ parent() }}
 
-    {% if alerts is defined and alerts|length > 0 %}
+    {% set contentAlerts = adminAddonsContext.getContentAlerts() %}
+    {% if contentAlerts|length > 0 %}
         <section class="alerts-wrapper">
-            {% for alert in alerts %}
+            {% for alert in contentAlerts %}
                 <twig:ea:Alert class="{{ loop.last ? 'mb-4' : 'mb-2' }}"
                                variant="{{ alert.variant }}"
                                :icon="alert.icon"

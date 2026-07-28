@@ -11,6 +11,7 @@ use NatePage\EasyAdminAddons\Context\AdminAddonsContextInterface;
 use NatePage\EasyAdminAddons\Context\AdminAddonsContextProviderInterface;
 use NatePage\EasyAdminAddons\Controller\AbstractCrudController;
 use NatePage\EasyAdminAddons\Controller\AbstractDashboardController;
+use NatePage\EasyAdminAddons\Session\FlashBagManager;
 use NatePage\Utils\Helper\StringHelper;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,7 @@ final readonly class AdminAddonsContextResolverListener
     public function __construct(
         private ControllerFactory $controllerFactory,
         private AdminAddonsContextProviderInterface $adminAddonsContextProvider,
+        private FlashBagManager $flashBagManager,
         private LoggerInterface $logger,
     ) {
     }
@@ -33,6 +35,7 @@ final readonly class AdminAddonsContextResolverListener
         $resolver = function () use ($request): AdminAddonsContextInterface {
             $context = AdminAddonsContext::create();
             $context->setCrudAddons($this->resolveCrudAddons($request));
+            $context->setFlashBagManager($this->flashBagManager);
 
             return $context;
         };

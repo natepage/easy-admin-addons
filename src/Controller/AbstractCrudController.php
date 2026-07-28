@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController as BaseAbs
 use NatePage\EasyAdminAddons\Config\CrudAddons;
 use NatePage\EasyAdminAddons\Context\AdminAddonsContextProviderInterface;
 use NatePage\EasyAdminAddons\Twig\Resolver\TemplateResolverInterface;
+use NatePage\EasyAdminAddons\Twig\ValueObject\Alert;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Service\Attribute\Required;
 
@@ -96,6 +97,11 @@ abstract class AbstractCrudController extends BaseAbstractCrudController
     public function configureCrudAddons(CrudAddons $crudAddons): CrudAddons
     {
         return $crudAddons;
+    }
+
+    protected function addContentAlert(Alert $alert): void
+    {
+        $this->adminAddonsContextProvider->getAdminAddonsContext()->addContentAlert($alert);
     }
 
     protected function resolveRouteName(

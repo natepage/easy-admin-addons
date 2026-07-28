@@ -16,9 +16,11 @@ use NatePage\EasyAdminAddons\Field\Configurator\TimezoneConfigurator as FieldTim
 use NatePage\EasyAdminAddons\Field\Configurator\TurboFrameConfigurator;
 use NatePage\EasyAdminAddons\Filter\Configurator\TimezoneConfigurator as FilterTimezoneConfigurator;
 use NatePage\EasyAdminAddons\Listener\AdminAddonsContextResolverListener;
+use NatePage\EasyAdminAddons\Listener\SessionBagListener;
 use NatePage\EasyAdminAddons\Orm\PersistenceDriverEntityPaginator;
 use NatePage\EasyAdminAddons\Persistence\PersistenceDriverRegistry;
 use NatePage\EasyAdminAddons\Persistence\PersistenceDriverRegistryInterface;
+use NatePage\EasyAdminAddons\Session\FlashBagManager;
 use NatePage\EasyAdminAddons\Timezone\Resolver\TimezoneResolver;
 use NatePage\EasyAdminAddons\Timezone\Resolver\TimezoneResolverInterface;
 use NatePage\EasyAdminAddons\Twig\Extension\AdminAddonsContextExtension;
@@ -62,6 +64,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // Routing
     $services->alias(AdminRouteGeneratorInterface::class, AdminRouteGenerator::class);
+
+    // Session
+    $services->set(FlashBagManager::class);
 
     // Timezone
     $services
