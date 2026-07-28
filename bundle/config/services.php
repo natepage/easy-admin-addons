@@ -21,6 +21,7 @@ use NatePage\EasyAdminAddons\Orm\PersistenceDriverEntityPaginator;
 use NatePage\EasyAdminAddons\Persistence\PersistenceDriverRegistry;
 use NatePage\EasyAdminAddons\Persistence\PersistenceDriverRegistryInterface;
 use NatePage\EasyAdminAddons\Session\FlashBagManager;
+use NatePage\EasyAdminAddons\Session\SessionFactory;
 use NatePage\EasyAdminAddons\Timezone\Resolver\TimezoneResolver;
 use NatePage\EasyAdminAddons\Timezone\Resolver\TimezoneResolverInterface;
 use NatePage\EasyAdminAddons\Twig\Extension\AdminAddonsContextExtension;
@@ -67,6 +68,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // Session
     $services->set(FlashBagManager::class);
+
+    $services
+        ->set(SessionFactory::class)
+        ->decorate('session.factory');
 
     // Timezone
     $services
