@@ -1,5 +1,4 @@
 import {Controller} from "@hotwired/stimulus";
-import {Tab} from "bootstrap";
 
 export default class extends Controller {
     connect() {
@@ -17,7 +16,7 @@ export default class extends Controller {
                 return;
             }
 
-            const bootstrapTab = new Tab(tabElement);
+            const bootstrapTab = new window.bootstrap.Tab(tabElement);
             // when showing a tab, Bootstrap hides all the other tabs automatically
             bootstrapTab.show();
         }
