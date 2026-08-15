@@ -16,7 +16,6 @@ use NatePage\EasyAdminAddons\Field\Configurator\TimezoneConfigurator as FieldTim
 use NatePage\EasyAdminAddons\Field\Configurator\TurboFrameConfigurator;
 use NatePage\EasyAdminAddons\Filter\Configurator\TimezoneConfigurator as FilterTimezoneConfigurator;
 use NatePage\EasyAdminAddons\Listener\AdminAddonsContextResolverListener;
-use NatePage\EasyAdminAddons\Listener\SessionBagListener;
 use NatePage\EasyAdminAddons\Orm\PersistenceDriverEntityPaginator;
 use NatePage\EasyAdminAddons\Persistence\PersistenceDriverRegistry;
 use NatePage\EasyAdminAddons\Persistence\PersistenceDriverRegistryInterface;
