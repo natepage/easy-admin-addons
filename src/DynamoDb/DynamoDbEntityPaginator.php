@@ -163,7 +163,9 @@ final class DynamoDbEntityPaginator implements EntityPaginatorInterface, ResetIn
             $objectClass = $from instanceof From ? $from->getFrom() : null;
         }
 
-        $this->objectRepository = $this->objectRepositoryRegistry->get($objectClass);
+        $this->objectRepository = \is_callable($crudAddons->entityPaginatorRepositoryFactory)
+            ? ($crudAddons->entityPaginatorRepositoryFactory)()
+            : $this->objectRepositoryRegistry->get($objectClass);
 
         $adminContext = $this->adminContextProvider->getContext();
         $currentRequest = $this->getCurrentRequest();

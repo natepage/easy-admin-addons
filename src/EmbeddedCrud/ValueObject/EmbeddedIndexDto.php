@@ -22,6 +22,11 @@ final class EmbeddedIndexDto
      */
     private $paginatorCallback;
 
+    /**
+     * @var callable|null
+     */
+    private $paginatorRepositoryFactory = null;
+
     private ?string $paginatorRouteName = null;
 
     private ?array $paginatorRouteParams = null;
@@ -91,6 +96,18 @@ final class EmbeddedIndexDto
     public function setPaginatorCallback(callable $paginatorCallback): EmbeddedIndexDto
     {
         $this->paginatorCallback = $paginatorCallback;
+        return $this;
+    }
+
+    public function getPaginatorRepositoryFactory(): ?callable
+    {
+        return $this->paginatorRepositoryFactory;
+    }
+
+    public function setPaginatorRepositoryFactory(?callable $paginatorRepositoryFactory): EmbeddedIndexDto
+    {
+        $this->paginatorRepositoryFactory = $paginatorRepositoryFactory;
+
         return $this;
     }
 

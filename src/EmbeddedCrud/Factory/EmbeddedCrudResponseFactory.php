@@ -83,6 +83,7 @@ final readonly class EmbeddedCrudResponseFactory
             $context->getCrud()?->setDefaultRowAction($embeddedIndexDto->getDefaultRowAction());
         }
 
+        $addonsContext->getCrudAddons()->entityPaginatorRepositoryFactory = $embeddedIndexDto->getPaginatorRepositoryFactory();
         $addonsContext->getCrudAddons()->entityPaginatorObjectClass = $embeddedIndexDto->getEntityClass();
         $addonsContext->getCrudAddons()->entityPaginatorGetResultsCallback = $embeddedIndexDto->getPaginatorCallback();
         $addonsContext->getCrudAddons()->entityPaginatorRouteName = $embeddedIndexDto->getPaginatorRouteName();

@@ -10,6 +10,14 @@ final class CrudAddons
     public bool $detailActionEnabled = false;
 
     /**
+     * A callback that will be called to create the ObjectRepositoryInterface instance, instead of resolving it
+     * from the registry.
+     *
+     * @var callable|null
+     */
+    public $entityPaginatorRepositoryFactory = null;
+
+    /**
      * A callback that will be called in the `getResults` method of the `EntityPaginator` class.
      * It should return an array of entities.
      *
