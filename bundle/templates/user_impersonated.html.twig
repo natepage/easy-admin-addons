@@ -1,6 +1,9 @@
+{% set userImpersonatorIcon = 'fas fa-exclamation-triangle' %}
+
 <div class="user-impersonated-container">
     <twig:ea:Alert variant="warning"
-                   :icon="fas fa-exclamation-triangle"
+                   style="justify-content: center"
+                   :icon="userImpersonatorIcon"
                    :withDismissButton="false">
         User impersonating: {{ adminAddonsContext().crudAddons.userImpersonator }}
     </twig:ea:Alert>
