@@ -12,10 +12,15 @@ use NatePage\EasyAdminAddons\Context\AdminAddonsContextProviderInterface;
 use NatePage\EasyAdminAddons\Controller\AbstractCrudController;
 use NatePage\EasyAdminAddons\Controller\AbstractDashboardController;
 use NatePage\EasyAdminAddons\Session\FlashBagManager;
+use NatePage\EasyAdminAddons\Twig\Resolver\TemplateResolverInterface;
+use NatePage\SymfonySecurity\OAuth\User\OAuthUserInterface;
 use NatePage\Utils\Helper\StringHelper;
 use Psr\Log\LoggerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
+use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 
 final readonly class AdminAddonsContextResolverListener
 {
@@ -24,6 +29,8 @@ final readonly class AdminAddonsContextResolverListener
         private AdminAddonsContextProviderInterface $adminAddonsContextProvider,
         private FlashBagManager $flashBagManager,
         private LoggerInterface $logger,
+        private Security $security,
+        private TemplateResolverInterface $templateResolver,
     ) {
     }
 
@@ -33,9 +40,27 @@ final readonly class AdminAddonsContextResolverListener
 
         // Resolver controller in the closure to avoid unnecessary controller instantiation if no CRUD addons are needed
         $resolver = function () use ($request): AdminAddonsContextInterface {
-            $context = AdminAddonsContext::create();
+            $context = AdminAddonsContext::create($this->templateResolver);
             $context->setCrudAddons($this->resolveCrudAddons($request));
             $context->setFlashBagManager($this->flashBagManager);
+
+            // Handle user impersonation, only if not already set so applications can control the logic
+            if ($context->getCrudAddons()->userImpersonator === null) {
+                $user = $this->security->getUser();
+                if (\interface_exists(OAuthUserInterface::class)
+                    && $user instanceof OAuthUserInterface
+                    && $user->isImpersonated()) {
+                    $context->getCrudAddons()->isUserImpersonated = true;
+                    $context->getCrudAddons()->userImpersonator = $user->getImpersonator();
+                }
+
+                $token = $this->security->getToken();
+                if ($this->security->isGranted(AuthenticatedVoter::IS_IMPERSONATOR)
+                    && $token instanceof SwitchUserToken) {
+                    $context->getCrudAddons()->isUserImpersonated = true;
+                    $context->getCrudAddons()->userImpersonator = $token->getUserIdentifier();
+                }
+            }
 
             return $context;
         };

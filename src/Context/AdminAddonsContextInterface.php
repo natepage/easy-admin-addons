@@ -16,4 +16,6 @@ interface AdminAddonsContextInterface
     public function getContentAlerts(): array;
 
     public function getCrudAddons(): CrudAddons;
+
+    public function getTemplatePath(string $templateName): string;
 }

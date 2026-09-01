@@ -9,7 +9,8 @@
         "natepage/utils": "dev-main"
     },
     "require-dev": {
-        "natepage/dynamo-db-repository": "dev-main"
+        "natepage/dynamo-db-repository": "dev-main",
+        "natepage/symfony-security": "dev-main"
     },
     "autoload": {
         "psr-4": {

@@ -9,6 +9,8 @@ final class CrudAddons
 {
     public bool $detailActionEnabled = false;
 
+    public bool $isUserImpersonated = false;
+
     /**
      * A callback that will be called to create the ObjectRepositoryInterface instance, instead of resolving it
      * from the registry.
@@ -42,7 +44,16 @@ final class CrudAddons
         }
     }
 
+    public array $overriddenTemplates = [];
+
     public bool $readOnly = false;
 
     public bool $renderTablesInCard = false;
+
+    public ?string $userImpersonator = null;
+
+    public function overrideTemplate(string $templateName, string $templatePath): void
+    {
+        $this->overriddenTemplates[$templateName] = $templatePath;
+    }
 }

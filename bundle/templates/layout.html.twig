@@ -2,6 +2,14 @@
 
 {% block body_attr %}{{ parent() }} data-controller="easy-admin-addons-global"{% endblock %}
 
+{% block wrapper_wrapper %}
+    {% if adminAddonsContext().crudAddons.isUserImpersonated %}
+        {% include adminAddonsContext().templatePath('user_impersonated') %}
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %}
+
 {% block content_header_wrapper %}
     {{ parent() }}
 
