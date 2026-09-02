@@ -12,6 +12,7 @@ use NatePage\EasyAdminAddons\Config\CrudAddons;
 use NatePage\EasyAdminAddons\Context\AdminAddonsContextProviderInterface;
 use NatePage\EasyAdminAddons\Twig\Resolver\TemplateResolverInterface;
 use NatePage\EasyAdminAddons\Twig\ValueObject\Alert;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Service\Attribute\Required;
 
@@ -118,12 +119,25 @@ abstract class AbstractCrudController extends BaseAbstractCrudController
         ?string $frameId = null
     ): Response {
         $frameTemplate = $this->templateResolver->resolvePath('turbo/frame.html.twig');
+        $response = new Response();
+
+        if (\is_array($templateContext)) {
+            foreach ($templateContext as $key => $value) {
+                if ($value instanceof FormInterface) {
+                    if ($value->isSubmitted() && ($value->isValid() === false)) {
+                        $response->setStatusCode(422);
+                    }
+
+                    $templateContext[$key] = $value->createView();
+                }
+            }
+        }
 
         return $this->render($frameTemplate, [
             'frameId' => $frameId,
             'templatePath' => $templatePath,
             'templateContext' => $templateContext,
-        ]);
+        ], $response);
     }
 
     protected function resetActionPermissions(Actions $actions, string $actionName): void

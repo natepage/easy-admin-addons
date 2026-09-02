@@ -4,7 +4,7 @@
 
 {% block wrapper_wrapper %}
     {% if adminAddonsContext().crudAddons.isUserImpersonated %}
-        {% include adminAddonsContext().templatePath('user_impersonated') %}
+        {% include adminAddonsContext().templatePath('includes/user_impersonated') %}
     {% endif %}
 
     {{ parent() }}

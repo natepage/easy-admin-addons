@@ -55,8 +55,8 @@ final class AdminAddonsContext implements AdminAddonsContextInterface
     {
         $crudAddons = $this->getCrudAddons();
 
-        if (isset($crudAddons->overriddenTemplates[$templateName])) {
-            return $crudAddons->overriddenTemplates[$templateName];
+        if (\str_starts_with($templateName, 'includes/') && isset($crudAddons->overriddenIncludesTemplates[$templateName])) {
+            return $crudAddons->overriddenIncludesTemplates[$templateName];
         }
 
         return $this->templateResolver->resolvePath($templateName);

@@ -44,7 +44,7 @@ final class CrudAddons
         }
     }
 
-    public array $overriddenTemplates = [];
+    public array $overriddenIncludesTemplates = [];
 
     public bool $readOnly = false;
 
@@ -52,8 +52,8 @@ final class CrudAddons
 
     public ?string $userImpersonator = null;
 
-    public function overrideTemplate(string $templateName, string $templatePath): void
+    public function overrideIncludeTemplate(string $templateName, string $templatePath): void
     {
-        $this->overriddenTemplates[$templateName] = $templatePath;
+        $this->overriddenIncludesTemplates[$templateName] = $templatePath;
     }
 }
