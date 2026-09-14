@@ -45,7 +45,8 @@ final readonly class AdminAddonsContextResolverListener
             $context->setFlashBagManager($this->flashBagManager);
 
             // Handle user impersonation, only if not already set so applications can control the logic
-            if ($context->getCrudAddons()->userImpersonator === null) {
+            if ($context->getCrudAddons()->userImpersonator === null
+                && (($this->security->getFirewallConfig($request)?->isStateless() ?? true) === false)) {
                 $user = $this->security->getUser();
                 if (\interface_exists(OAuthUserInterface::class)
                     && $user instanceof OAuthUserInterface
