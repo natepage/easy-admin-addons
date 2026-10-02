@@ -2,4 +2,6 @@
 {% set ea = ea() %}
 {% trans_default_domain ea.i18n.translationDomain %}
 
-{{ block('detail_fields', ea.templatePath('crud/detail')) }}
+<div data-controller="embedded-crud-detail">
+    {{ block('detail_fields', ea.templatePath('crud/detail')) }}
+</div>
